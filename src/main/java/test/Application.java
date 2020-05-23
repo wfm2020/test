@@ -17,7 +17,7 @@ public class Application {
 
     @EventListener
     private void processPostDeploy(PostDeployEvent event) {
-        runtimeService.startProcessInstanceByKey("Process_0cz4jia");
+        runtimeService.startProcessInstanceByKey("Process_12x2cxl");
     }
 
     public static void main(String... args) {
