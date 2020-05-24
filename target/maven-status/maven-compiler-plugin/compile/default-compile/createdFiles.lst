@@ -1,1 +1,5 @@
+test\controller\PawnShopController.class
+test\entity\PawnData.class
+test\service\PawnShopService.class
 test\Application.class
+test\repository\PawnDataRepository.class
