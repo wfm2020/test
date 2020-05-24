@@ -2,19 +2,19 @@ package test.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
-public class PawnData implements Serializable {
+public class DeliveryData implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private String name;
+    private LocalDateTime dateTime;
 
-    //TODO: add customerData
-
+    // TODO: add pawnData
 
     public Long getId() {
         return id;
@@ -24,11 +24,11 @@ public class PawnData implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 }

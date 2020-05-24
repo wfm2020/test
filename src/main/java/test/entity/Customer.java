@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class PawnData implements Serializable {
+public class Customer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,8 +12,6 @@ public class PawnData implements Serializable {
 
     @Column
     private String name;
-
-    //TODO: add customerData
 
 
     public Long getId() {
