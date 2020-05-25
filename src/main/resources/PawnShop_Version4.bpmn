@@ -259,14 +259,22 @@
       <bpmn:incoming>Flow_1qzb8q1</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_195k8ye" sourceRef="Activity_1ber7v0" targetRef="Gateway_1uiu3gk" />
-    <bpmn:sequenceFlow id="Flow_1qzb8q1" name="No" sourceRef="Gateway_1uiu3gk" targetRef="Event_0k4owcl" />
+    <bpmn:sequenceFlow id="Flow_1qzb8q1" name="No" sourceRef="Gateway_1uiu3gk" targetRef="Event_0k4owcl" >
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">
+        ${request_accepted == false}
+      </bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:dataObjectReference id="DataObjectReference_1g4tmc6" name="Accepted request data + Pickup time" dataObjectRef="DataObject_1kyicz0" />
     <bpmn:dataObject id="DataObject_1kyicz0" />
-    <bpmn:sequenceFlow id="Flow_0tw8gi3" sourceRef="Gateway_1uiu3gk" targetRef="Activity_0le40zj" />
+    <bpmn:sequenceFlow id="Flow_0tw8gi3" sourceRef="Gateway_1uiu3gk" targetRef="Activity_0le40zj" >
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">
+        ${request_accepted == true}
+      </bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:dataObjectReference id="DataObjectReference_1kp6i88" name="Accepted request data" dataObjectRef="DataObject_0ao9qgo" />
     <bpmn:dataObject id="DataObject_0ao9qgo" />
     <bpmn:sequenceFlow id="Flow_07g3f3c" sourceRef="Activity_1v1rt9c" targetRef="Activity_081w6ez" />
-    <bpmn:serviceTask id="Activity_08oznks" name="Load Request Data">
+    <bpmn:serviceTask id="Activity_08oznks" name="Load Request Data" camunda:class="load_request_data">
       <bpmn:incoming>Flow_1b6bimm</bpmn:incoming>
       <bpmn:outgoing>Flow_0da7jpu</bpmn:outgoing>
       <bpmn:property id="Property_1ttq1g9" name="__targetRef_placeholder" />
@@ -278,7 +286,7 @@
         <bpmn:targetRef>DataObjectReference_112qwiz</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_0le40zj" name="Load Accepted Request Data">
+    <bpmn:serviceTask id="Activity_0le40zj" name="Load Accepted Request Data" camunda:class="load_accepted_request_data">
       <bpmn:incoming>Flow_0tw8gi3</bpmn:incoming>
       <bpmn:outgoing>Flow_0ce0001</bpmn:outgoing>
       <bpmn:property id="Property_0ajj6xi" name="__targetRef_placeholder" />
@@ -290,7 +298,7 @@
         <bpmn:targetRef>DataObjectReference_1kp6i88</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_081w6ez" name="Load pick-up data">
+    <bpmn:serviceTask id="Activity_081w6ez" name="Load pick-up data" camunda:class="load_pickup_data">
       <bpmn:incoming>Flow_07g3f3c</bpmn:incoming>
       <bpmn:outgoing>Flow_1dk5k0o</bpmn:outgoing>
       <bpmn:property id="Property_0nogyp7" name="__targetRef_placeholder" />
