@@ -1,5 +1,9 @@
+test\repository\DeliveryDataRepository.class
 test\controller\PawnShopController.class
 test\entity\PawnData.class
 test\service\PawnShopService.class
+test\entity\Customer.class
+test\repository\CustomerRepository.class
+test\entity\DeliveryData.class
 test\Application.class
 test\repository\PawnDataRepository.class

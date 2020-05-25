@@ -2,7 +2,9 @@ package test.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import test.dto.PawnCustomerDTO;
 import test.entity.DeliveryData;
 import test.entity.PawnData;
 import test.service.PawnShopService;
@@ -24,8 +26,30 @@ class PawnShopController {
     // creates customer and pawn data
     @PostMapping(value = "/pawn")
     @ResponseStatus(HttpStatus.CREATED)
-    public PawnData create(@RequestBody PawnData data) {
-        return pawnShopService.create(data);
+    public void create(@RequestBody PawnCustomerDTO data) {
+        if (data == null) {
+            throw new IllegalArgumentException("No data inserted!");
+        }
+        if (StringUtils.isEmpty(data.getMaterial())) {
+            throw new IllegalArgumentException("Insert the material type!");
+        }
+        if (StringUtils.isEmpty(data.getWeight())) {
+            throw new IllegalArgumentException("Insert the weight!");
+        }
+        if (StringUtils.isEmpty(data.getFirstName())) {
+            throw new IllegalArgumentException("Insert first name!");
+        }
+        if (StringUtils.isEmpty(data.getLastName())) {
+            throw new IllegalArgumentException("Insert last name!");
+        }
+        if (StringUtils.isEmpty(data.getEmail())) {
+            throw new IllegalArgumentException("Insert email!");
+        }
+        if (StringUtils.isEmpty(data.getPhoneNumber())) {
+            throw new IllegalArgumentException("Insert phone number!");
+        }
+
+        pawnShopService.create(data);
     }
 
     // creates delivery data

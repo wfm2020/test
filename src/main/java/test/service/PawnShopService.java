@@ -2,6 +2,8 @@ package test.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import test.dto.PawnCustomerDTO;
+import test.entity.Customer;
 import test.entity.DeliveryData;
 import test.entity.PawnData;
 import test.repository.CustomerRepository;
@@ -24,8 +26,25 @@ public class PawnShopService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public PawnData create(PawnData data) {
-        return pawnDataRepository.save(data);
+    public void create(PawnCustomerDTO data) {
+
+        PawnData pawn = new PawnData();
+        pawn.setName(data.getName());
+        pawn.setMaterial(data.getMaterial());
+        pawn.setWeight(data.getWeight());
+        pawn.setKarats(data.getKarats());
+
+        Customer customer = new Customer();
+
+        customer.setFirstName(data.getFirstName());
+        customer.setLastName(data.getLastName());
+        customer.setBirthDate(data.getBirthDate());
+        customer.setEmail(data.getEmail());
+        customer.setPhoneNumber(data.getPhoneNumber());
+
+        customerRepository.save(customer);
+        pawnDataRepository.save(pawn);
+
     }
 
     public DeliveryData createDelivery(DeliveryData data) {

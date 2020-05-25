@@ -260,17 +260,13 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_195k8ye" sourceRef="Activity_1ber7v0" targetRef="Gateway_1uiu3gk" />
     <bpmn:sequenceFlow id="Flow_1qzb8q1" name="No" sourceRef="Gateway_1uiu3gk" targetRef="Event_0k4owcl" >
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">
-        ${request_accepted == false}
-      </bpmn:conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression">
+        ${order.price > 100 && order.price < 250}
+      </conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:dataObjectReference id="DataObjectReference_1g4tmc6" name="Accepted request data + Pickup time" dataObjectRef="DataObject_1kyicz0" />
     <bpmn:dataObject id="DataObject_1kyicz0" />
-    <bpmn:sequenceFlow id="Flow_0tw8gi3" sourceRef="Gateway_1uiu3gk" targetRef="Activity_0le40zj" >
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">
-        ${request_accepted == true}
-      </bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0tw8gi3" sourceRef="Gateway_1uiu3gk" targetRef="Activity_0le40zj" />
     <bpmn:dataObjectReference id="DataObjectReference_1kp6i88" name="Accepted request data" dataObjectRef="DataObject_0ao9qgo" />
     <bpmn:dataObject id="DataObject_0ao9qgo" />
     <bpmn:sequenceFlow id="Flow_07g3f3c" sourceRef="Activity_1v1rt9c" targetRef="Activity_081w6ez" />
