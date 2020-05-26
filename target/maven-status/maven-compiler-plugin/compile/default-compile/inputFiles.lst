@@ -3,7 +3,9 @@ X:\WFM_java_project\new\test\src\main\java\test\controller\PawnShopController.ja
 X:\WFM_java_project\new\test\src\main\java\test\entity\PawnData.java
 X:\WFM_java_project\new\test\src\main\java\test\repository\PawnDataRepository.java
 X:\WFM_java_project\new\test\src\main\java\test\repository\CustomerRepository.java
+X:\WFM_java_project\new\test\src\main\java\test\enums\Material.java
 X:\WFM_java_project\new\test\src\main\java\test\Application.java
 X:\WFM_java_project\new\test\src\main\java\test\entity\DeliveryData.java
 X:\WFM_java_project\new\test\src\main\java\test\repository\DeliveryDataRepository.java
+X:\WFM_java_project\new\test\src\main\java\test\dto\PawnCustomerDTO.java
 X:\WFM_java_project\new\test\src\main\java\test\entity\Customer.java
