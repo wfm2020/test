@@ -1,8 +1,6 @@
 package test.dto;
 
 import test.enums.Material;
-
-import javax.persistence.Column;
 import java.time.LocalDate;
 
 public class PawnCustomerDTO {

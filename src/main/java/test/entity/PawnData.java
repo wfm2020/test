@@ -15,6 +15,7 @@ public class PawnData implements Serializable {
     @Column
     private String name;
     @Column
+    @Enumerated(EnumType.STRING)
     private Material material;
     @Column
     private Float weight;
