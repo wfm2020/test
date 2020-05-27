@@ -1,5 +1,11 @@
+test\repository\DeliveryDataRepository.class
+test\dto\PawnCustomerDTO.class
+test\entity\DeliveryData.class
 test\controller\PawnShopController.class
 test\entity\PawnData.class
 test\service\PawnShopService.class
+test\entity\Customer.class
+test\repository\CustomerRepository.class
 test\Application.class
+test\enums\Material.class
 test\repository\PawnDataRepository.class
