@@ -1,7 +1,7 @@
 package pawnshop.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import pawnshop.dto.PawnCustomerDTO;
 import pawnshop.entity.Customer;
 import pawnshop.entity.DeliveryData;
@@ -12,7 +12,7 @@ import pawnshop.repository.PawnDataRepository;
 
 import java.util.logging.Logger;
 
-@Component
+@Service
 public class PawnShopService {
 
     private final Logger LOGGER = Logger.getLogger(PawnShopService.class.getName());

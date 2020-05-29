@@ -17,7 +17,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("pawnshop.repository")
 @ComponentScan({
         "pawnshop.controller",
-        "pawnshop.service"
+        "pawnshop.service",
+        "pawnshop.entity"
 })
 public class Application {
 
