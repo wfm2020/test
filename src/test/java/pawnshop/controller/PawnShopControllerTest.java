@@ -30,7 +30,7 @@ public class PawnShopControllerTest {
     PawnShopService pawnShopService;
 
     @Test
-    public void testCreateCustomerAndData(){
+    public void givenPawnData_whenCreate_returnCreated(){
         PawnDataDTO dto = new PawnDataDTO("SilverRing", Material.SILVER, (float) 2, 1, "Max",
                 "Mustermann", "max.mustermann@mail.com", LocalDate.of(1994,10,10), "123456789");
 
@@ -41,7 +41,7 @@ public class PawnShopControllerTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreateWithNoDataShouldFail(){
+    public void givenNullPawnData_whenCreate_returnException(){
         pawnShopController.create(null);
     }
 
