@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class PawnData implements Serializable {
+public class PawnedItem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,42 +18,52 @@ public class PawnData implements Serializable {
     @Enumerated(EnumType.STRING)
     private Material material;
     @Column
-    private Float weight;
+    private double weight;
     @Column
-    private Integer karats;
+    private double price;
+    @Column
+    private boolean payed;
 
-    public PawnData() {
+    public PawnedItem() {
     }
 
-    public PawnData(String name, Material material, Float weight, Integer karats) {
+    public PawnedItem(String name, Material material, double weight) {
         this.name = name;
         this.material = material;
         this.weight = weight;
-        this.karats = karats;
+    }
+
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public boolean isPayed() {
+        return payed;
+    }
+
+    public void setPayed(boolean payed) {
+        this.payed = payed;
     }
 
     public void setMaterial(Material material) {
         this.material = material;
     }
 
-    public void setWeight(Float weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
-    }
-
-    public void setKarats(Integer karats) {
-        this.karats = karats;
     }
 
     public Material getMaterial() {
         return material;
     }
 
-    public Float getWeight() {
+    public double getWeight() {
         return weight;
-    }
-
-    public Integer getKarats() {
-        return karats;
     }
 
     public Long getId() {

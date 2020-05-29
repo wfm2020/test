@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import pawnshop.Application;
-import pawnshop.dto.PawnCustomerDTO;
+import pawnshop.dto.PawnDataDTO;
 import pawnshop.enums.Material;
 import pawnshop.response.GeneralResponse;
 import pawnshop.service.PawnShopService;
@@ -31,10 +31,10 @@ public class PawnShopControllerTest {
 
     @Test
     public void testCreateCustomerAndData(){
-        PawnCustomerDTO dto = new PawnCustomerDTO("SilverRing", Material.SILVER, (float) 2, 1, "Max",
+        PawnDataDTO dto = new PawnDataDTO("SilverRing", Material.SILVER, (float) 2, 1, "Max",
                 "Mustermann", "max.mustermann@mail.com", LocalDate.of(1994,10,10), "123456789");
 
-        doNothing().when(pawnShopService).create(any(PawnCustomerDTO.class));
+        doNothing().when(pawnShopService).create(any(PawnDataDTO.class));
         ResponseEntity<GeneralResponse> responseEntity = pawnShopController.create(dto);
 
         assert responseEntity.getStatusCode().equals(HttpStatus.CREATED);

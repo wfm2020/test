@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNotNull;
 public class PawnShopRepositoryTest {
 
     @Autowired
-    private PawnDataRepository pawnDataRepository;
+    private PawnedItemRepository pawnedItemRepository;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -32,5 +32,15 @@ public class PawnShopRepositoryTest {
         Customer savedCustomer = customerRepository.findById(customer.getId()).get();
         assertNotNull(savedCustomer);
         assertEquals("Max", savedCustomer.getFirstName());
+    }
+
+    @Test
+    public void givenCustomer_whenFindByEmail_thenGetOk(){
+        Customer customer = new Customer("Maxim", "Mustermann", "maxim.mustermann@mail.com",
+                LocalDate.of(1990, 1, 1), "123456");
+        customer = customerRepository.save(customer);
+        Customer savedCustomer = customerRepository.findByEmail(customer.getEmail());
+        assertNotNull(savedCustomer);
+        assertEquals("Maxim", savedCustomer.getFirstName());
     }
 }

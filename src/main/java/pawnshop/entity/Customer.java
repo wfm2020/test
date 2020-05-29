@@ -1,8 +1,11 @@
 package pawnshop.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Customer implements Serializable {
@@ -16,11 +19,14 @@ public class Customer implements Serializable {
     @Column
     private String lastName;
     @Column
+    @NotNull
     private String email;
     @Column
     private LocalDate birthDate;
     @Column
     private String phoneNumber;
+    @OneToMany
+    private List<PawnedItem> pawnedItems;
 
     public Customer() {
     }
@@ -31,6 +37,19 @@ public class Customer implements Serializable {
         this.email = email;
         this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
+        pawnedItems = new ArrayList<>();
+    }
+
+    public List<PawnedItem> getPawnedItems() {
+        return pawnedItems;
+    }
+
+    public void addPawnedItem(PawnedItem pawnedItem){
+        this.pawnedItems.add(pawnedItem);
+    }
+
+    public void setPawnedItems(List<PawnedItem> pawnedItems) {
+        this.pawnedItems = pawnedItems;
     }
 
     public Long getId() {

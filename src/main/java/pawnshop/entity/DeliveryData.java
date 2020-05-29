@@ -14,7 +14,16 @@ public class DeliveryData implements Serializable {
     @Column
     private LocalDateTime dateTime;
 
-    // TODO: add pawnData
+    @OneToOne
+    private PawnedItem pawnedItem;
+
+    public PawnedItem getPawnedItem() {
+        return pawnedItem;
+    }
+
+    public void setPawnedItem(PawnedItem pawnedItem) {
+        this.pawnedItem = pawnedItem;
+    }
 
     public Long getId() {
         return id;

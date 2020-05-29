@@ -3,12 +3,11 @@ package pawnshop.dto;
 import pawnshop.enums.Material;
 import java.time.LocalDate;
 
-public class PawnCustomerDTO {
+public class PawnDataDTO {
 
-    private String name;
+    private String itemName;
     private Material material;
     private Float weight;
-    private Integer karats;
 
     private String firstName;
     private String lastName;
@@ -16,15 +15,23 @@ public class PawnCustomerDTO {
     private LocalDate birthDate;
     private String phoneNumber;
 
-    public PawnCustomerDTO() {
+    public PawnDataDTO(String itemName, Material material, Float weight, Integer karats, String firstName, String lastName, String email, LocalDate birthDate, String phoneNumber) {
+        this.itemName = itemName;
+        this.material = material;
+        this.weight = weight;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getName() {
-        return name;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public Material getMaterial() {
@@ -41,14 +48,6 @@ public class PawnCustomerDTO {
 
     public void setWeight(Float weight) {
         this.weight = weight;
-    }
-
-    public Integer getKarats() {
-        return karats;
-    }
-
-    public void setKarats(Integer karats) {
-        this.karats = karats;
     }
 
     public String getFirstName() {
@@ -88,18 +87,6 @@ public class PawnCustomerDTO {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public PawnCustomerDTO(String name, Material material, Float weight, Integer karats, String firstName, String lastName, String email, LocalDate birthDate, String phoneNumber) {
-        this.name = name;
-        this.material = material;
-        this.weight = weight;
-        this.karats = karats;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
     }
 }

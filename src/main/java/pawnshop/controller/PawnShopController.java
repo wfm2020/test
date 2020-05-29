@@ -5,9 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import pawnshop.dto.PawnCustomerDTO;
+import pawnshop.dto.DeliveryDataDTO;
+import pawnshop.dto.PawnDataDTO;
 import pawnshop.entity.DeliveryData;
-import pawnshop.entity.PawnData;
+import pawnshop.entity.PawnedItem;
 import pawnshop.response.GeneralResponse;
 import pawnshop.service.PawnShopService;
 
@@ -20,14 +21,14 @@ class PawnShopController {
 
     // automatically evaluates the price of a pawn item
     @GetMapping(value = "/pawn/evaluate")
-    public PawnData evaluate(@RequestBody PawnData data) {
+    public PawnedItem evaluate(@RequestBody PawnedItem data) {
         // TODO: inline script?
         return null;
     }
 
     // creates customer and pawn data
-    @PostMapping(value = "/pawn")
-    public ResponseEntity<GeneralResponse> create(@RequestBody PawnCustomerDTO data) {
+    @PostMapping(value = "/addPawnData")
+    public ResponseEntity<GeneralResponse> create(@RequestBody PawnDataDTO data) {
         if (data == null) {
             throw new IllegalArgumentException("No data inserted!");
         }
@@ -57,29 +58,42 @@ class PawnShopController {
     }
 
     // creates delivery data
-    @PostMapping(value = "/delivery")
-    public ResponseEntity<GeneralResponse> createDelivery(@RequestBody DeliveryData data) {
-        pawnShopService.createDelivery(data);
+    @PostMapping(value = "/addDeliveryData")
+    public ResponseEntity<GeneralResponse> createDelivery(@RequestBody DeliveryDataDTO data) {
+        if(data == null){
+            throw new IllegalArgumentException("No data inserted!");
+        }
+        else if(data.getDateTime() == null){
+            throw new IllegalArgumentException("No time inserted");
+        }
+
+        pawnShopService.create(data);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new GeneralResponse(true, "SUCCESS: DeliveryData saved successfully"));
     }
 
     // get pawn by id
-    @GetMapping(value = "/pawn/{id}")
-    public PawnData getPawn(@PathVariable("id") Long id) {
-        return pawnShopService.getPawn(id);
+    @GetMapping(value = "/pawnedItem/{id}")
+    public PawnedItem getPawn(@PathVariable("id") Long id) {
+        return pawnShopService.getPawnItemById(id);
     }
 
     // get delivery data by id
-    @GetMapping(value = "/delivery/{id}")
+    @GetMapping(value = "/deliveryData/{id}")
     public DeliveryData getDelivery(@PathVariable("id") Long id) {
         return pawnShopService.getDeliveryData(id);
     }
 
-    @PutMapping(value = "/pawn")
+    @PutMapping(value = "/updatePrice")
     @ResponseStatus(HttpStatus.OK)
-    public PawnData updatePawn(@RequestBody PawnData data) {
-        return pawnShopService.update(data);
+    public PawnedItem updatePawn(@RequestBody PawnedItem data) {
+        return pawnShopService.updatePawnedItemPrice(data);
+    }
+
+    @PutMapping(value = "/updatePayment")
+    @ResponseStatus(HttpStatus.OK)
+    public PawnedItem updatePayment(@RequestBody PawnedItem data) {
+        return pawnShopService.updatePawnedItemPayment(data);
     }
 
 }
