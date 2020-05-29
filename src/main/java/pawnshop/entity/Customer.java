@@ -18,7 +18,7 @@ public class Customer implements Serializable {
     private String firstName;
     @Column
     private String lastName;
-    @Column
+    @Column(unique = true)
     @NotNull
     private String email;
     @Column
