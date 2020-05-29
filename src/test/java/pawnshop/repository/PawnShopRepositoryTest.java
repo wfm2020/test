@@ -1,14 +1,12 @@
-package pawnshop;
+package pawnshop.repository;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import pawnshop.Application;
 import pawnshop.entity.Customer;
-import pawnshop.repository.CustomerRepository;
-import pawnshop.repository.DeliveryDataRepository;
-import pawnshop.repository.PawnDataRepository;
 import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
