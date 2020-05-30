@@ -60,8 +60,7 @@
             <camunda:value id="BRONZE" name="BRONZE" />
           </camunda:formField>
           <camunda:formField id="weight" label="weight" type="long" defaultValue="100" />
-          <camunda:formField id="firstName" label="firstName" type="string"
-                             defaultValue="Name user" />
+          <camunda:formField id="firstName" label="firstName" type="string" defaultValue="Name user" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_startToFillPawnForm</bpmn:incoming>
@@ -345,6 +344,11 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_automaticallyEvaluatePriceToRespondEstimation" sourceRef="Activity_automatiallyEvaluatePrice" targetRef="Activity_respondEstimation" />
     <bpmn:userTask id="Activity_respondEstimation" name="Respond the estimation">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="estimationAccepted" label="Accept estimation" type="boolean" />
+        </camunda:formData>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_automaticallyEvaluatePriceToRespondEstimation</bpmn:incoming>
       <bpmn:outgoing>Flow_respondEstimationToGateway</bpmn:outgoing>
     </bpmn:userTask>
