@@ -1,11 +1,13 @@
-pawnshop\dto\PawnCustomerDTO.class
-pawnshop\entity\PawnData.class
+pawnshop\dto\PawnDataDTO.class
 pawnshop\controller\PawnShopController.class
 pawnshop\entity\Customer.class
+pawnshop\entity\PawnedItem.class
+pawnshop\dto\DeliveryDataDTO.class
 pawnshop\entity\DeliveryData.class
 pawnshop\Application.class
 pawnshop\service\PawnShopService.class
 pawnshop\enums\Material.class
 pawnshop\repository\CustomerRepository.class
 pawnshop\repository\DeliveryDataRepository.class
-pawnshop\repository\PawnDataRepository.class
+pawnshop\response\GeneralResponse.class
+pawnshop\repository\PawnedItemRepository.class

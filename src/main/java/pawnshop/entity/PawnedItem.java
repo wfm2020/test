@@ -23,16 +23,23 @@ public class PawnedItem implements Serializable {
     private double price;
     @Column
     private boolean payed;
+    @ManyToOne
+    @JoinColumn(name = "customerID", nullable = false)
+    private Customer customer;
 
     public PawnedItem() {
     }
 
-    public PawnedItem(String name, Material material, double weight) {
+    public PawnedItem(String name, Material material, double weight, Customer customer) {
         this.name = name;
         this.material = material;
         this.weight = weight;
+        this.customer = customer;
     }
 
+    public Customer getCustomer() { return customer; }
+
+    public void setCustomer(Customer customer) { this.customer = customer; }
 
     public double getPrice() {
         return price;

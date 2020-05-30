@@ -11,7 +11,7 @@ import java.util.List;
 public class Customer implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
@@ -25,7 +25,7 @@ public class Customer implements Serializable {
     private LocalDate birthDate;
     @Column
     private String phoneNumber;
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
     private List<PawnedItem> pawnedItems;
 
     public Customer() {

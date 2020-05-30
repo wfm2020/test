@@ -4,18 +4,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import pawnshop.Application;
 import pawnshop.entity.Customer;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
+@Sql(scripts = {"classpath:data.sql"})
 public class PawnShopRepositoryTest {
 
     @Autowired
@@ -46,15 +47,11 @@ public class PawnShopRepositoryTest {
         assertEquals("Maxim", savedCustomer.getFirstName());
     }
 
-    @Test
+    @Test(expected = Exception.class)
     public void givenCustomer_whenSaveExistingEmail_thenGetNotOk() {
-        Customer customer = new Customer("Maxim", "Mustermann", "maxim.mustermann@mail.com",
+        Customer customer = new Customer("Maxim", "Mustermann", "john.doe@gmail.com",
                 LocalDate.of(1990, 1, 1), "123456");
         customerRepository.save(customer);
-        Customer duplicateCustomer = new Customer("Maxima", "Musterfrau", "maxim.mustermann@mail.com",
-                LocalDate.of(1991, 2, 2), "012345");
-        customerRepository.save(customer);
-        List<Customer> customers = customerRepository.findAll();
-        assertEquals(1, customers.size());
+
     }
 }
