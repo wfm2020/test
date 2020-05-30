@@ -346,7 +346,7 @@
     <bpmn:userTask id="Activity_respondEstimation" name="Respond the estimation">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="estimationAccepted" label="Accept estimation" type="boolean" />
+          <camunda:formField id="estimationAccepted" label="Accept estimation: ${price} euros for ${itemName}" type="boolean" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_automaticallyEvaluatePriceToRespondEstimation</bpmn:incoming>
