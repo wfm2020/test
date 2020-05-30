@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_03xhwxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.7.3">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_03xhwxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.7.2">
   <bpmn:collaboration id="Collaboration_1ps5r7s">
     <bpmn:participant id="Participant_0bkllgr" name="Pawn Shop" processRef="Process_12x2cxl" />
   </bpmn:collaboration>
@@ -17,20 +17,19 @@
         <bpmn:childLaneSet id="LaneSet_1w6zsp6" />
       </bpmn:lane>
       <bpmn:lane id="Lane_1llu3jd" name="Customer">
-        <bpmn:flowNodeRef>Event_1d45lq6</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_1ej6vbc</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_0yibrv0</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_016whdw</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_fillPawnForm</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0ab9i2w</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_0ql0ns9</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0oc62dn</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1ymo216</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_0jzfagj</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_0vvkeef</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_respondEstimation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_respondEstimation</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_0428tzl" name="Application">
         <bpmn:flowNodeRef>Activity_1v1rt9c</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_1ltalrk</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_automatiallyEvaluatePrice</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0rlopb8</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_1uiu3gk</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_0k4owcl</bpmn:flowNodeRef>
@@ -48,46 +47,28 @@
         <bpmn:flowNodeRef>Activity_1w2oa2o</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="Event_1d45lq6" name="Customer interested in pawning jewlery">
-      <bpmn:outgoing>Flow_0vg3zwa</bpmn:outgoing>
+    <bpmn:startEvent id="Event_start" name="Customer interested in pawning jewlery">
+      <bpmn:outgoing>Flow_startToFillPawnForm</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:userTask id="Activity_1ej6vbc" name="Fill in pawn form">
+    <bpmn:userTask id="Activity_fillPawnForm" name="Fill in pawn form">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="FormField_0qrq1nb" label="ItemName" type="string" defaultValue="testname" />
-          <camunda:formField id="FormField_0t4aiha" label="Material" type="enum">
-            <camunda:value id="Value_3kdfc94" name="GOLD" />
-            <camunda:value id="Value_3rak6f2" name="SILVER" />
-            <camunda:value id="Value_35e5m35" name="BRONZE" />
+          <camunda:formField id="itemName" label="ItemName" type="string" defaultValue="testname" />
+          <camunda:formField id="material" label="Material" type="enum">
+            <camunda:value id="GOLD" name="GOLD" />
+            <camunda:value id="SILVER" name="SILVER" />
+            <camunda:value id="BRONZE" name="BRONZE" />
           </camunda:formField>
-          <camunda:formField id="FormField_2quaks8" label="weight" type="long" defaultValue="100" />
-          <camunda:formField id="FormField_2916kc8" label="firstName" type="string" defaultValue="Name user" />
+          <camunda:formField id="weight" label="weight" type="long" defaultValue="100" />
+          <camunda:formField id="firstName" label="firstName" type="string"
+                             defaultValue="Name user" />
         </camunda:formData>
-        <camunda:inputOutput>
-          <camunda:outputParameter name="Output_3jo9eg6" />
-          <camunda:outputParameter name="Output_1gv5vqk" />
-          <camunda:outputParameter name="Output_2545gcu" />
-        </camunda:inputOutput>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0vg3zwa</bpmn:incoming>
-      <bpmn:outgoing>Flow_1hsrf72</bpmn:outgoing>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_1blun09">
+      <bpmn:incoming>Flow_startToFillPawnForm</bpmn:incoming>
+      <bpmn:outgoing>Flow_fillPawnFormToAutomaticallyEvaluatePrice</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_pawnData">
         <bpmn:targetRef>DataObjectReference_00j4cfd</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
-    </bpmn:userTask>
-    <bpmn:exclusiveGateway id="Gateway_0yibrv0">
-      <bpmn:incoming>Flow_0yperxg</bpmn:incoming>
-      <bpmn:outgoing>Flow_1svjvpd</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1twhivy</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_016whdw" name="Deny estimation">
-      <bpmn:incoming>Flow_1svjvpd</bpmn:incoming>
-      <bpmn:outgoing>Flow_00510aj</bpmn:outgoing>
-      <bpmn:property id="Property_1yicfe2" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_0871bhq">
-        <bpmn:sourceRef>DataObjectReference_099so36</bpmn:sourceRef>
-        <bpmn:targetRef>Property_1yicfe2</bpmn:targetRef>
-      </bpmn:dataInputAssociation>
     </bpmn:userTask>
     <bpmn:dataStoreReference id="DataStoreReference_0rhf4ea" />
     <bpmn:userTask id="Activity_0ab9i2w" name="Choose pickup or dropoff">
@@ -132,36 +113,21 @@
         <bpmn:targetRef>DataStoreReference_0rhf4ea</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
-    <bpmn:scriptTask id="Activity_1ltalrk" name="Automatically evaluate price" camunda:resultVariable="price">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="name">ring</camunda:inputParameter>
-          <camunda:inputParameter name="material">SILVER</camunda:inputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1hsrf72</bpmn:incoming>
-      <bpmn:outgoing>Flow_0yperxg</bpmn:outgoing>
+    <bpmn:scriptTask id="Activity_automatiallyEvaluatePrice" name="Automatically evaluate price" camunda:resultVariable="price">
+      <bpmn:incoming>Flow_fillPawnFormToAutomaticallyEvaluatePrice</bpmn:incoming>
+      <bpmn:outgoing>Flow_automaticallyEvaluatePriceToRespondEstimation</bpmn:outgoing>
       <bpmn:property id="Property_14skhbt" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_1vd2z5o">
+      <bpmn:dataInputAssociation id="DataInputAssociation_pawnData">
         <bpmn:sourceRef>DataObjectReference_00j4cfd</bpmn:sourceRef>
         <bpmn:targetRef>Property_14skhbt</bpmn:targetRef>
       </bpmn:dataInputAssociation>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_1m9t0z4">
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_pawnDataWithEstimation">
         <bpmn:targetRef>DataObjectReference_099so36</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
-      <bpmn:script>material.length;</bpmn:script>
+      <bpmn:script>${weight * material.length()}</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:dataObjectReference id="DataObjectReference_00j4cfd" name="Pawn Data" dataObjectRef="DataObject_1oglb40" />
     <bpmn:dataObject id="DataObject_1oglb40" />
-    <bpmn:userTask id="Activity_0jzfagj" name="Accept estimation">
-      <bpmn:incoming>Flow_1twhivy</bpmn:incoming>
-      <bpmn:outgoing>Flow_0tj0vsj</bpmn:outgoing>
-      <bpmn:property id="Property_16xksd0" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_0uf5k7o">
-        <bpmn:sourceRef>DataObjectReference_099so36</bpmn:sourceRef>
-        <bpmn:targetRef>Property_16xksd0</bpmn:targetRef>
-      </bpmn:dataInputAssociation>
-    </bpmn:userTask>
     <bpmn:manualTask id="Activity_02vc8zt" name="Pickup item from customer and bring to store">
       <bpmn:incoming>Flow_0isolp0</bpmn:incoming>
       <bpmn:outgoing>Flow_0ldbk0y</bpmn:outgoing>
@@ -172,10 +138,10 @@
       </bpmn:dataInputAssociation>
     </bpmn:manualTask>
     <bpmn:serviceTask id="Activity_0rlopb8" name="Save pawn data" camunda:class="SavePawnData">
-      <bpmn:incoming>Flow_0tj0vsj</bpmn:incoming>
+      <bpmn:incoming>Flow_respondEstimationToSavePawnData</bpmn:incoming>
       <bpmn:outgoing>Flow_1hys51q</bpmn:outgoing>
       <bpmn:property id="Property_1wg4imk" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_1083bvh">
+      <bpmn:dataInputAssociation id="DataInputAssociation_pawnDataWithEstimationToSaveData">
         <bpmn:sourceRef>DataObjectReference_099so36</bpmn:sourceRef>
         <bpmn:targetRef>Property_1wg4imk</bpmn:targetRef>
       </bpmn:dataInputAssociation>
@@ -190,23 +156,11 @@
     </bpmn:exclusiveGateway>
     <bpmn:dataObjectReference id="DataObjectReference_099so36" name="Pawn data with Estimation" dataObjectRef="DataObject_14g276s" />
     <bpmn:dataObject id="DataObject_14g276s" />
-    <bpmn:endEvent id="Event_0vvkeef">
-      <bpmn:incoming>Flow_00510aj</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1bsmecw" sourceRef="Activity_1frjv00" targetRef="Gateway_109mr0n" />
     <bpmn:sequenceFlow id="Flow_1r4p2qr" sourceRef="Activity_18c0agn" targetRef="Gateway_109mr0n" />
     <bpmn:sequenceFlow id="Flow_1vxts8v" sourceRef="Activity_0oc62dn" targetRef="Gateway_0ljhby2" />
     <bpmn:sequenceFlow id="Flow_0ldbk0y" sourceRef="Activity_02vc8zt" targetRef="Gateway_0ljhby2" />
-    <bpmn:sequenceFlow id="Flow_1hsrf72" sourceRef="Activity_1ej6vbc" targetRef="Activity_1ltalrk" />
-    <bpmn:sequenceFlow id="Flow_0yperxg" sourceRef="Activity_1ltalrk" targetRef="Gateway_0yibrv0" />
-    <bpmn:sequenceFlow id="Flow_1svjvpd" sourceRef="Gateway_0yibrv0" targetRef="Activity_016whdw">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${estimationAccepted == false}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_1twhivy" sourceRef="Gateway_0yibrv0" targetRef="Activity_0jzfagj">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${estimationAccepted == true}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_00510aj" sourceRef="Activity_016whdw" targetRef="Event_0vvkeef" />
-    <bpmn:sequenceFlow id="Flow_0tj0vsj" sourceRef="Activity_0jzfagj" targetRef="Activity_0rlopb8" />
+    <bpmn:sequenceFlow id="Flow_fillPawnFormToAutomaticallyEvaluatePrice" sourceRef="Activity_fillPawnForm" targetRef="Activity_automatiallyEvaluatePrice" />
     <bpmn:sequenceFlow id="Flow_1ox0vki" sourceRef="Activity_0ab9i2w" targetRef="Gateway_0ql0ns9" />
     <bpmn:sequenceFlow id="Flow_15axzf3" sourceRef="Gateway_0ql0ns9" targetRef="Activity_0oc62dn">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPickup == false}</bpmn:conditionExpression>
@@ -380,7 +334,27 @@
       </bpmn:dataInputAssociation>
       <bpmn:standardLoopCharacteristics />
     </bpmn:manualTask>
-    <bpmn:sequenceFlow id="Flow_0vg3zwa" sourceRef="Event_1d45lq6" targetRef="Activity_1ej6vbc" />
+    <bpmn:sequenceFlow id="Flow_startToFillPawnForm" sourceRef="Event_start" targetRef="Activity_fillPawnForm" />
+    <bpmn:endEvent id="Event_0vvkeef">
+      <bpmn:incoming>Flow_respondEstimationToEnd</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_respondEstimation">
+      <bpmn:incoming>Flow_respondEstimationToGateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_respondEstimationToEnd</bpmn:outgoing>
+      <bpmn:outgoing>Flow_respondEstimationToSavePawnData</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_automaticallyEvaluatePriceToRespondEstimation" sourceRef="Activity_automatiallyEvaluatePrice" targetRef="Activity_respondEstimation" />
+    <bpmn:userTask id="Activity_respondEstimation" name="Respond the estimation">
+      <bpmn:incoming>Flow_automaticallyEvaluatePriceToRespondEstimation</bpmn:incoming>
+      <bpmn:outgoing>Flow_respondEstimationToGateway</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_respondEstimationToGateway" sourceRef="Activity_respondEstimation" targetRef="Gateway_respondEstimation" />
+    <bpmn:sequenceFlow id="Flow_respondEstimationToEnd" sourceRef="Gateway_respondEstimation" targetRef="Event_0vvkeef">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${estimationAccepted == false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_respondEstimationToSavePawnData" sourceRef="Gateway_respondEstimation" targetRef="Activity_0rlopb8">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${estimationAccepted == true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:textAnnotation id="TextAnnotation_0lspe22">
       <bpmn:text>for evaluation</bpmn:text>
     </bpmn:textAnnotation>
@@ -409,7 +383,27 @@
       <bpmndi:BPMNShape id="Lane_1d354gd_di" bpmnElement="Lane_1d354gd" isHorizontal="true">
         <dc:Bounds x="190" y="1460" width="3138" height="340" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_0vg3zwa_di" bpmnElement="Flow_0vg3zwa">
+      <bpmndi:BPMNEdge id="Flow_0ymhaze_di" bpmnElement="Flow_respondEstimationToSavePawnData">
+        <di:waypoint x="685" y="250" />
+        <di:waypoint x="810" y="250" />
+        <di:waypoint x="810" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rnsaiq_di" bpmnElement="Flow_respondEstimationToEnd">
+        <di:waypoint x="660" y="225" />
+        <di:waypoint x="660" y="140" />
+        <di:waypoint x="952" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_187abah_di" bpmnElement="Flow_respondEstimationToGateway">
+        <di:waypoint x="570" y="270" />
+        <di:waypoint x="603" y="270" />
+        <di:waypoint x="603" y="250" />
+        <di:waypoint x="635" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_106wuby_di" bpmnElement="Flow_automaticallyEvaluatePriceToRespondEstimation">
+        <di:waypoint x="520" y="500" />
+        <di:waypoint x="520" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vg3zwa_di" bpmnElement="Flow_startToFillPawnForm">
         <di:waypoint x="288" y="270" />
         <di:waypoint x="330" y="270" />
       </bpmndi:BPMNEdge>
@@ -533,29 +527,7 @@
         <di:waypoint x="1760" y="230" />
         <di:waypoint x="1825" y="230" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0tj0vsj_di" bpmnElement="Flow_0tj0vsj">
-        <di:waypoint x="780" y="320" />
-        <di:waypoint x="810" y="320" />
-        <di:waypoint x="810" y="450" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_00510aj_di" bpmnElement="Flow_00510aj">
-        <di:waypoint x="720" y="150" />
-        <di:waypoint x="782" y="150" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1twhivy_di" bpmnElement="Flow_1twhivy">
-        <di:waypoint x="545" y="320" />
-        <di:waypoint x="680" y="320" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1svjvpd_di" bpmnElement="Flow_1svjvpd">
-        <di:waypoint x="520" y="295" />
-        <di:waypoint x="520" y="150" />
-        <di:waypoint x="620" y="150" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0yperxg_di" bpmnElement="Flow_0yperxg">
-        <di:waypoint x="520" y="500" />
-        <di:waypoint x="520" y="345" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1hsrf72_di" bpmnElement="Flow_1hsrf72">
+      <bpmndi:BPMNEdge id="Flow_1hsrf72_di" bpmnElement="Flow_fillPawnFormToAutomaticallyEvaluatePrice">
         <di:waypoint x="400" y="310" />
         <di:waypoint x="400" y="540" />
         <di:waypoint x="470" y="540" />
@@ -581,20 +553,14 @@
         <di:waypoint x="1660" y="1170" />
         <di:waypoint x="1660" y="1225" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Event_1d45lq6_di" bpmnElement="Event_1d45lq6">
+      <bpmndi:BPMNShape id="Event_1d45lq6_di" bpmnElement="Event_start">
         <dc:Bounds x="252" y="252" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="231" y="295" width="79" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1ej6vbc_di" bpmnElement="Activity_1ej6vbc">
+      <bpmndi:BPMNShape id="Activity_1ej6vbc_di" bpmnElement="Activity_fillPawnForm">
         <dc:Bounds x="330" y="230" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0yibrv0_di" bpmnElement="Gateway_0yibrv0" isMarkerVisible="true">
-        <dc:Bounds x="495" y="295" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0e2x9jg_di" bpmnElement="Activity_016whdw">
-        <dc:Bounds x="620" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="DataStoreReference_0rhf4ea_di" bpmnElement="DataStoreReference_0rhf4ea">
         <dc:Bounds x="1505" y="595" width="50" height="50" />
@@ -614,7 +580,7 @@
       <bpmndi:BPMNShape id="Activity_0c4yx03_di" bpmnElement="Activity_1v1rt9c">
         <dc:Bounds x="2080" y="480" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1ltalrk_di" bpmnElement="Activity_1ltalrk">
+      <bpmndi:BPMNShape id="Activity_1ltalrk_di" bpmnElement="Activity_automatiallyEvaluatePrice">
         <dc:Bounds x="470" y="500" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="DataObjectReference_00j4cfd_di" bpmnElement="DataObjectReference_00j4cfd">
@@ -622,9 +588,6 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="276.5" y="533" width="55" height="14" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0rhfgpc_di" bpmnElement="Activity_0jzfagj">
-        <dc:Bounds x="680" y="280" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_02vc8zt_di" bpmnElement="Activity_02vc8zt">
         <dc:Bounds x="2340" y="870" width="100" height="80" />
@@ -643,9 +606,6 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="592" y="477.5" width="75" height="27" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0vvkeef_di" bpmnElement="Event_0vvkeef">
-        <dc:Bounds x="782" y="132" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_109mr0n_di" bpmnElement="Gateway_109mr0n" isMarkerVisible="true">
         <dc:Bounds x="1635" y="1225" width="50" height="50" />
@@ -728,6 +688,15 @@
       <bpmndi:BPMNShape id="Activity_0vntyn8_di" bpmnElement="Activity_1w2oa2o">
         <dc:Bounds x="1030" y="1210" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0vvkeef_di" bpmnElement="Event_0vvkeef">
+        <dc:Bounds x="952" y="122" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0yibrv0_di" bpmnElement="Gateway_respondEstimation" isMarkerVisible="true">
+        <dc:Bounds x="635" y="225" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xiivp1_di" bpmnElement="Activity_respondEstimation">
+        <dc:Bounds x="470" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0lspe22_di" bpmnElement="TextAnnotation_0lspe22">
         <dc:Bounds x="380" y="620" width="99.99999794078421" height="29.993252876477367" />
       </bpmndi:BPMNShape>
@@ -736,13 +705,9 @@
         <di:waypoint x="360" y="635" />
         <di:waypoint x="380" y="635" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_1blun09_di" bpmnElement="DataOutputAssociation_1blun09">
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1blun09_di" bpmnElement="DataOutputAssociation_pawnData">
         <di:waypoint x="358" y="310" />
         <di:waypoint x="358" y="515" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_0871bhq_di" bpmnElement="DataInputAssociation_0871bhq">
-        <di:waypoint x="640" y="510" />
-        <di:waypoint x="640" y="190" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataInputAssociation_1e006kg_di" bpmnElement="DataInputAssociation_1e006kg">
         <di:waypoint x="1772" y="330" />
@@ -767,25 +732,20 @@
         <di:waypoint x="1548" y="520" />
         <di:waypoint x="1548" y="595" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_1vd2z5o_di" bpmnElement="DataInputAssociation_1vd2z5o">
+      <bpmndi:BPMNEdge id="DataInputAssociation_1vd2z5o_di" bpmnElement="DataInputAssociation_pawnData">
         <di:waypoint x="378" y="560" />
         <di:waypoint x="470" y="560" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_1m9t0z4_di" bpmnElement="DataOutputAssociation_1m9t0z4">
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1m9t0z4_di" bpmnElement="DataOutputAssociation_pawnDataWithEstimation">
         <di:waypoint x="570" y="540" />
         <di:waypoint x="610" y="540" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_0uf5k7o_di" bpmnElement="DataInputAssociation_0uf5k7o">
-        <di:waypoint x="648" y="540" />
-        <di:waypoint x="690" y="540" />
-        <di:waypoint x="690" y="360" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataInputAssociation_14d4ita_di" bpmnElement="DataInputAssociation_14d4ita">
         <di:waypoint x="2250" y="315" />
         <di:waypoint x="2250" y="900" />
         <di:waypoint x="2340" y="900" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_1083bvh_di" bpmnElement="DataInputAssociation_1083bvh">
+      <bpmndi:BPMNEdge id="DataInputAssociation_1083bvh_di" bpmnElement="DataInputAssociation_pawnDataWithEstimationToSaveData">
         <di:waypoint x="648" y="560" />
         <di:waypoint x="810" y="560" />
         <di:waypoint x="810" y="530" />
