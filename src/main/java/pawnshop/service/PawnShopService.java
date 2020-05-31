@@ -30,7 +30,7 @@ public class PawnShopService {
     public void create(PawnDataDTO data) {
 
         PawnedItem pawnedItem = new PawnedItem();
-        pawnedItem.setName(data.getItemName());
+        pawnedItem.setItemName(data.getItemName());
         pawnedItem.setMaterial(data.getMaterial());
         pawnedItem.setWeight(data.getWeight());
 

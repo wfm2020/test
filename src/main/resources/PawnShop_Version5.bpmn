@@ -53,14 +53,19 @@
     <bpmn:userTask id="Activity_fillPawnForm" name="Fill in pawn form">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="itemName" label="ItemName" type="string" defaultValue="testname" />
+          <camunda:formField id="itemName" label="Item Name" type="string" />
           <camunda:formField id="material" label="Material" type="enum">
             <camunda:value id="GOLD" name="GOLD" />
             <camunda:value id="SILVER" name="SILVER" />
             <camunda:value id="BRONZE" name="BRONZE" />
+            <camunda:value id="PLATINUM" name="PLATINUM" />
           </camunda:formField>
-          <camunda:formField id="weight" label="weight" type="long" defaultValue="100" />
-          <camunda:formField id="firstName" label="firstName" type="string" defaultValue="Name user" />
+          <camunda:formField id="weight" label="Weight" type="string" />
+          <camunda:formField id="firstName" label="First Name" type="string" />
+          <camunda:formField id="lastName" label="Last Name" type="string" />
+          <camunda:formField id="email" label="Email" type="string" />
+          <camunda:formField id="phoneNumber" label="Phone Number" type="string" />
+          <camunda:formField id="birthDate" label="Birth Date" type="date" datePattern="dd.mm.yyyy" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_startToFillPawnForm</bpmn:incoming>
@@ -136,7 +141,7 @@
         <bpmn:targetRef>Property_1tixelc</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:manualTask>
-    <bpmn:serviceTask id="Activity_0rlopb8" name="Save pawn data" camunda:class="SavePawnData">
+    <bpmn:serviceTask id="Activity_0rlopb8" name="Save pawn data" camunda:class="pawnshop.delegate.SavePawnData">
       <bpmn:incoming>Flow_respondEstimationToSavePawnData</bpmn:incoming>
       <bpmn:outgoing>Flow_1hys51q</bpmn:outgoing>
       <bpmn:property id="Property_1wg4imk" name="__targetRef_placeholder" />

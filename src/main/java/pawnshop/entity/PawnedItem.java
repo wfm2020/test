@@ -12,8 +12,8 @@ public class PawnedItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String name;
+    @Column(name = "item_name")
+    private String itemName;
     @Column
     @Enumerated(EnumType.STRING)
     private Material material;
@@ -30,8 +30,8 @@ public class PawnedItem implements Serializable {
     public PawnedItem() {
     }
 
-    public PawnedItem(String name, Material material, double weight, Customer customer) {
-        this.name = name;
+    public PawnedItem(String itemName, Material material, double weight, Customer customer) {
+        this.itemName = itemName;
         this.material = material;
         this.weight = weight;
         this.customer = customer;
@@ -81,11 +81,11 @@ public class PawnedItem implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 }

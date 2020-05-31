@@ -31,7 +31,7 @@ public class PawnShopControllerTest {
 
     @Test
     public void givenPawnData_whenCreate_returnCreated(){
-        PawnDataDTO dto = new PawnDataDTO("SilverRing", Material.SILVER, (float) 2, 1, "Max",
+        PawnDataDTO dto = new PawnDataDTO("SilverRing", Material.SILVER, (float) 2, (float) 100, "Max",
                 "Mustermann", "max.mustermann@mail.com", LocalDate.of(1994,10,10), "123456789");
 
         doNothing().when(pawnShopService).create(any(PawnDataDTO.class));
