@@ -17,6 +17,7 @@ CREATE TABLE pawned_item (
     material varchar(255),
     weight float,
     price float,
+    accepted boolean,
     payed boolean,
     customer_id serial,
     FOREIGN KEY (customer_id) REFERENCES customer(ID)

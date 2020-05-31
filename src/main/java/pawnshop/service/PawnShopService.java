@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pawnshop.dto.DeliveryDataDTO;
 import pawnshop.dto.PawnDataDTO;
+import pawnshop.dto.PawnedItemDTO;
 import pawnshop.entity.Customer;
 import pawnshop.entity.DeliveryData;
 import pawnshop.entity.PawnedItem;
@@ -11,6 +12,7 @@ import pawnshop.repository.CustomerRepository;
 import pawnshop.repository.DeliveryDataRepository;
 import pawnshop.repository.PawnedItemRepository;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -27,7 +29,7 @@ public class PawnShopService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public void create(PawnDataDTO data) {
+    public PawnedItem create(PawnDataDTO data) {
         Customer customer = customerRepository.findByEmail(data.getEmail());
 
         if(customer == null){
@@ -49,10 +51,12 @@ public class PawnShopService {
         pawnedItem.setWeight(data.getWeight());
         pawnedItem.setCustomer(customer);
 
-        pawnedItemRepository.save(pawnedItem);
+        pawnedItem = pawnedItemRepository.save(pawnedItem);
 
         customer.addPawnedItem(pawnedItem);
         customerRepository.save(customer);
+
+        return pawnedItem;
     }
 
     public PawnedItem getPawnItemById(Long id) {
@@ -68,6 +72,12 @@ public class PawnShopService {
     public PawnedItem updatePawnedItemPayment(PawnedItem data) {
         PawnedItem pawnedItem = getPawnItemById(data.getId());
         pawnedItem.setPayed(data.isPayed());
+        return pawnedItemRepository.save(pawnedItem);
+    }
+
+    public PawnedItem updatePawnedItemAccepted(PawnedItemDTO data) {
+        PawnedItem pawnedItem = getPawnItemById(data.getId());
+        pawnedItem.setAccepted(data.isAccepted());
         return pawnedItemRepository.save(pawnedItem);
     }
 

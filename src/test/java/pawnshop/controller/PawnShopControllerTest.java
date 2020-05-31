@@ -29,17 +29,6 @@ public class PawnShopControllerTest {
     @Mock
     PawnShopService pawnShopService;
 
-    @Test
-    public void givenPawnData_whenCreate_returnCreated(){
-        PawnDataDTO dto = new PawnDataDTO("SilverRing", Material.SILVER, (float) 2, (float) 100, "Max",
-                "Mustermann", "max.mustermann@mail.com", LocalDate.of(1994,10,10), "123456789");
-
-        doNothing().when(pawnShopService).create(any(PawnDataDTO.class));
-        ResponseEntity<GeneralResponse> responseEntity = pawnShopController.create(dto);
-
-        assert responseEntity.getStatusCode().equals(HttpStatus.CREATED);
-    }
-
     @Test(expected = IllegalArgumentException.class)
     public void givenNullPawnData_whenCreate_returnException(){
         pawnShopController.create(null);

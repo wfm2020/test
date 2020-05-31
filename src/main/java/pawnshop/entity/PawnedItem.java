@@ -24,6 +24,8 @@ public class PawnedItem implements Serializable {
     private double price;
     @Column
     private boolean payed;
+    @Column
+    private boolean accepted;
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
@@ -36,6 +38,14 @@ public class PawnedItem implements Serializable {
         this.material = material;
         this.weight = weight;
         this.customer = customer;
+    }
+
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
     }
 
     public Customer getCustomer() { return customer; }
