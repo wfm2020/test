@@ -24,11 +24,11 @@ public class SavePawnData implements JavaDelegate {
         pawnDataDTO.setPrice(Float.valueOf((Long) execution.getVariable("price")));
 
         String firstName = (String) execution.getVariable("firstName");
-        if(firstName != null){
+        if (firstName != null) {
             pawnDataDTO.setFirstName(firstName);
         }
         String lastName = (String) execution.getVariable("lastName");
-        if(lastName != null){
+        if (lastName != null) {
             pawnDataDTO.setLastName(lastName);
         }
 
@@ -36,11 +36,11 @@ public class SavePawnData implements JavaDelegate {
 
 
         String phoneNumber = (String) execution.getVariable("phoneNumber");
-        if(phoneNumber != null){
+        if (phoneNumber != null) {
             pawnDataDTO.setPhoneNumber(phoneNumber);
         }
         Date birthDate = (Date) execution.getVariable("birthDate");
-        if(birthDate != null){
+        if (birthDate != null) {
             pawnDataDTO.setBirthDate(birthDate.toInstant()
                     .atZone(ZoneId.systemDefault())
                     .toLocalDate());

@@ -27,7 +27,7 @@ public class Customer implements Serializable {
     @Column(name = "phone_number")
     private String phoneNumber;
     @OneToMany(mappedBy = "customer")
-    private List<PawnedItem> pawnedItems;
+    private List<PawnedItem> pawnedItems = new ArrayList<>();
 
     public Customer() {
     }
@@ -38,7 +38,6 @@ public class Customer implements Serializable {
         this.email = email;
         this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
-        pawnedItems = new ArrayList<>();
     }
 
     public List<PawnedItem> getPawnedItems() {

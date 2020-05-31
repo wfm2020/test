@@ -25,7 +25,7 @@ public class PawnedItem implements Serializable {
     @Column
     private boolean payed;
     @ManyToOne
-    @JoinColumn(name = "customerid", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     public PawnedItem() {
