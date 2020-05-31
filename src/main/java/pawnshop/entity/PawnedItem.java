@@ -6,14 +6,15 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Table(name = "pawned_item")
 public class PawnedItem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String name;
+    @Column(name = "item_name")
+    private String itemName;
     @Column
     @Enumerated(EnumType.STRING)
     private Material material;
@@ -24,14 +25,14 @@ public class PawnedItem implements Serializable {
     @Column
     private boolean payed;
     @ManyToOne
-    @JoinColumn(name = "customerID", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     public PawnedItem() {
     }
 
-    public PawnedItem(String name, Material material, double weight, Customer customer) {
-        this.name = name;
+    public PawnedItem(String itemName, Material material, double weight, Customer customer) {
+        this.itemName = itemName;
         this.material = material;
         this.weight = weight;
         this.customer = customer;
@@ -81,11 +82,11 @@ public class PawnedItem implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 }

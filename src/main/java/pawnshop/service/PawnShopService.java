@@ -28,14 +28,6 @@ public class PawnShopService {
     private CustomerRepository customerRepository;
 
     public void create(PawnDataDTO data) {
-
-        PawnedItem pawnedItem = new PawnedItem();
-        pawnedItem.setName(data.getItemName());
-        pawnedItem.setMaterial(data.getMaterial());
-        pawnedItem.setWeight(data.getWeight());
-
-        pawnedItemRepository.save(pawnedItem);
-
         Customer customer = customerRepository.findByEmail(data.getEmail());
 
         if(customer == null){
@@ -46,6 +38,19 @@ public class PawnShopService {
             customer.setEmail(data.getEmail());
             customer.setPhoneNumber(data.getPhoneNumber());
         }
+
+        customerRepository.save(customer);
+
+        customer = customerRepository.findByEmail(data.getEmail());
+
+        PawnedItem pawnedItem = new PawnedItem();
+        pawnedItem.setItemName(data.getItemName());
+        pawnedItem.setMaterial(data.getMaterial());
+        pawnedItem.setWeight(data.getWeight());
+        pawnedItem.setCustomer(customer);
+
+        pawnedItemRepository.save(pawnedItem);
+
         customer.addPawnedItem(pawnedItem);
         customerRepository.save(customer);
     }

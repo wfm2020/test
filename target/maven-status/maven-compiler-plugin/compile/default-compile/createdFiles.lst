@@ -1,3 +1,4 @@
+pawnshop\delegate\SavePawnData.class
 pawnshop\dto\PawnDataDTO.class
 pawnshop\controller\PawnShopController.class
 pawnshop\entity\Customer.class
