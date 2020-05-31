@@ -7,10 +7,10 @@
     <bpmn:laneSet id="LaneSet_098sp10">
       <bpmn:lane id="Lane_1d354gd" name="Front desk PawnShop Employee">
         <bpmn:flowNodeRef>Activity_1lme773</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_0zkwt6e</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_evaluateItem</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_02w8amq</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_010sbom</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_0jssrcq</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_evaluateItemSecond</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_1uki9jt" name="Delivery">
         <bpmn:flowNodeRef>Activity_02vc8zt</bpmn:flowNodeRef>
@@ -20,18 +20,18 @@
         <bpmn:flowNodeRef>Event_start</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_fillPawnForm</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0ab9i2w</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_0ql0ns9</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_choosePickupOrDropoff</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0oc62dn</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1ymo216</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_0vvkeef</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_respondEstimation</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_respondEstimation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_respondEstimation</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_0428tzl" name="Application">
         <bpmn:flowNodeRef>Activity_1v1rt9c</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_automatiallyEvaluatePrice</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0rlopb8</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_1uiu3gk</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_updateRequestStatus</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_0k4owcl</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0le40zj</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0q18x2i</bpmn:flowNodeRef>
@@ -39,10 +39,10 @@
         <bpmn:flowNodeRef>Activity_1ber7v0</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_1198tms" name="Online service desk employee">
-        <bpmn:flowNodeRef>Gateway_0cnxipd</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_109mr0n</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_0ljhby2</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_18c0agn</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_evaluateCustomerRequest</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_evaluateCustomerRequestSecond</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_choosePickupOrDropoffSecond</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_RequestAcceptableToDenyRequest</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1frjv00</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1w2oa2o</bpmn:flowNodeRef>
       </bpmn:lane>
@@ -66,49 +66,49 @@
       <bpmn:incoming>Flow_startToFillPawnForm</bpmn:incoming>
       <bpmn:outgoing>Flow_fillPawnFormToAutomaticallyEvaluatePrice</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_pawnData">
-        <bpmn:targetRef>DataObjectReference_00j4cfd</bpmn:targetRef>
+        <bpmn:targetRef>DataObjectReference_pawnData</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:userTask>
     <bpmn:dataStoreReference id="DataStoreReference_0rhf4ea" />
     <bpmn:userTask id="Activity_0ab9i2w" name="Choose pickup or dropoff">
-      <bpmn:incoming>Flow_0ce0001</bpmn:incoming>
-      <bpmn:outgoing>Flow_1ox0vki</bpmn:outgoing>
+      <bpmn:incoming>Flow_loadAcceptedRequestDataToChoosePickupOrDropoff</bpmn:incoming>
+      <bpmn:outgoing>Flow_choosePickupOrDropoffToGateway</bpmn:outgoing>
       <bpmn:property id="Property_131jseq" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_1e006kg">
-        <bpmn:sourceRef>DataObjectReference_1kp6i88</bpmn:sourceRef>
+      <bpmn:dataInputAssociation id="DataInputAssociation_acceptedRequestDataToChoosePickupDropoff">
+        <bpmn:sourceRef>DataObjectReference_acceptedRequestData</bpmn:sourceRef>
         <bpmn:targetRef>Property_131jseq</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="Gateway_0ql0ns9">
-      <bpmn:incoming>Flow_1ox0vki</bpmn:incoming>
-      <bpmn:outgoing>Flow_15axzf3</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0dcghm3</bpmn:outgoing>
+    <bpmn:exclusiveGateway id="Gateway_choosePickupOrDropoff">
+      <bpmn:incoming>Flow_choosePickupOrDropoffToGateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_gatewayToDropoffItem</bpmn:outgoing>
+      <bpmn:outgoing>Flow_gatewayToSchedulePickupTime</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:manualTask id="Activity_0oc62dn" name="Dropoff item">
-      <bpmn:incoming>Flow_15axzf3</bpmn:incoming>
-      <bpmn:outgoing>Flow_1vxts8v</bpmn:outgoing>
+      <bpmn:incoming>Flow_gatewayToDropoffItem</bpmn:incoming>
+      <bpmn:outgoing>Flow_dropoffItemToGateway</bpmn:outgoing>
     </bpmn:manualTask>
     <bpmn:userTask id="Activity_1ymo216" name="Schedule pickup time">
-      <bpmn:incoming>Flow_0dcghm3</bpmn:incoming>
-      <bpmn:outgoing>Flow_1qou07z</bpmn:outgoing>
+      <bpmn:incoming>Flow_gatewayToSchedulePickupTime</bpmn:incoming>
+      <bpmn:outgoing>Flow_schedulePickupTimeToSavePickupData</bpmn:outgoing>
       <bpmn:property id="Property_02mebtl" name="__targetRef_placeholder" />
       <bpmn:dataInputAssociation id="DataInputAssociation_0gznzsd">
-        <bpmn:sourceRef>DataObjectReference_1kp6i88</bpmn:sourceRef>
+        <bpmn:sourceRef>DataObjectReference_acceptedRequestData</bpmn:sourceRef>
         <bpmn:targetRef>Property_02mebtl</bpmn:targetRef>
       </bpmn:dataInputAssociation>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_0df6c11">
-        <bpmn:targetRef>DataObjectReference_1g4tmc6</bpmn:targetRef>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_acceptedRequestDataAndPickupTime">
+        <bpmn:targetRef>DataObjectReference_acceptedRequestDataAndPickupTime</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:userTask>
     <bpmn:serviceTask id="Activity_1v1rt9c" name="Save pickup data" camunda:class="SavePickupData">
-      <bpmn:incoming>Flow_1qou07z</bpmn:incoming>
-      <bpmn:outgoing>Flow_0isolp0</bpmn:outgoing>
+      <bpmn:incoming>Flow_schedulePickupTimeToSavePickupData</bpmn:incoming>
+      <bpmn:outgoing>Flow_savePickupDataToPickupItemFromCustomerBringToStore</bpmn:outgoing>
       <bpmn:property id="Property_1bqj6rk" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_0cnra8f">
-        <bpmn:sourceRef>DataObjectReference_1g4tmc6</bpmn:sourceRef>
+      <bpmn:dataInputAssociation id="DataInputAssociation_acceptedRequestDataAndPickupTimeToSavePickupData">
+        <bpmn:sourceRef>DataObjectReference_acceptedRequestDataAndPickupTime</bpmn:sourceRef>
         <bpmn:targetRef>Property_1bqj6rk</bpmn:targetRef>
       </bpmn:dataInputAssociation>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_17a1aud">
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_savePickupDataToDatabase">
         <bpmn:targetRef>DataStoreReference_0rhf4ea</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
@@ -117,218 +117,218 @@
       <bpmn:outgoing>Flow_automaticallyEvaluatePriceToRespondEstimation</bpmn:outgoing>
       <bpmn:property id="Property_14skhbt" name="__targetRef_placeholder" />
       <bpmn:dataInputAssociation id="DataInputAssociation_pawnData">
-        <bpmn:sourceRef>DataObjectReference_00j4cfd</bpmn:sourceRef>
+        <bpmn:sourceRef>DataObjectReference_pawnData</bpmn:sourceRef>
         <bpmn:targetRef>Property_14skhbt</bpmn:targetRef>
       </bpmn:dataInputAssociation>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_pawnDataWithEstimation">
-        <bpmn:targetRef>DataObjectReference_099so36</bpmn:targetRef>
+        <bpmn:targetRef>DataObjectReference_pawnDataWithEstimation</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
       <bpmn:script>${weight * material.length()}</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:dataObjectReference id="DataObjectReference_00j4cfd" name="Pawn Data" dataObjectRef="DataObject_1oglb40" />
+    <bpmn:dataObjectReference id="DataObjectReference_pawnData" name="Pawn Data" dataObjectRef="DataObject_1oglb40" />
     <bpmn:dataObject id="DataObject_1oglb40" />
     <bpmn:manualTask id="Activity_02vc8zt" name="Pickup item from customer and bring to store">
-      <bpmn:incoming>Flow_0isolp0</bpmn:incoming>
-      <bpmn:outgoing>Flow_0ldbk0y</bpmn:outgoing>
+      <bpmn:incoming>Flow_savePickupDataToPickupItemFromCustomerBringToStore</bpmn:incoming>
+      <bpmn:outgoing>Flow_pickupItemFromCustomerBringToStoreToGateway</bpmn:outgoing>
       <bpmn:property id="Property_1tixelc" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_14d4ita">
-        <bpmn:sourceRef>DataObjectReference_1g4tmc6</bpmn:sourceRef>
+      <bpmn:dataInputAssociation id="DataInputAssociation_acceptedRequestDataAndPickupTimeToPickItemBringToStore">
+        <bpmn:sourceRef>DataObjectReference_acceptedRequestDataAndPickupTime</bpmn:sourceRef>
         <bpmn:targetRef>Property_1tixelc</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:manualTask>
     <bpmn:serviceTask id="Activity_0rlopb8" name="Save pawn data" camunda:class="SavePawnData">
       <bpmn:incoming>Flow_respondEstimationToSavePawnData</bpmn:incoming>
-      <bpmn:outgoing>Flow_1hys51q</bpmn:outgoing>
+      <bpmn:outgoing>Flow_savePawnDataToEvaluateCustomerRequest</bpmn:outgoing>
       <bpmn:property id="Property_1wg4imk" name="__targetRef_placeholder" />
       <bpmn:dataInputAssociation id="DataInputAssociation_pawnDataWithEstimationToSaveData">
-        <bpmn:sourceRef>DataObjectReference_099so36</bpmn:sourceRef>
+        <bpmn:sourceRef>DataObjectReference_pawnDataWithEstimation</bpmn:sourceRef>
         <bpmn:targetRef>Property_1wg4imk</bpmn:targetRef>
       </bpmn:dataInputAssociation>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_1pdc631">
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_savePawndataToDatabase">
         <bpmn:targetRef>DataStoreReference_0rhf4ea</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="Gateway_0cnxipd" name="Request acceptable?">
-      <bpmn:incoming>Flow_0zuwkum</bpmn:incoming>
+    <bpmn:exclusiveGateway id="Gateway_evaluateCustomerRequest" name="Request acceptable?">
+      <bpmn:incoming>Flow_EvaluateCustomerRequestToRequestAcceptable</bpmn:incoming>
       <bpmn:outgoing>Flow_1wg8egk</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0rjj8un</bpmn:outgoing>
+      <bpmn:outgoing>Flow_RequestAcceptableToAcceptRequest</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:dataObjectReference id="DataObjectReference_099so36" name="Pawn data with Estimation" dataObjectRef="DataObject_14g276s" />
+    <bpmn:dataObjectReference id="DataObjectReference_pawnDataWithEstimation" name="Pawn data with Estimation" dataObjectRef="DataObject_14g276s" />
     <bpmn:dataObject id="DataObject_14g276s" />
-    <bpmn:sequenceFlow id="Flow_1bsmecw" sourceRef="Activity_1frjv00" targetRef="Gateway_109mr0n" />
-    <bpmn:sequenceFlow id="Flow_1r4p2qr" sourceRef="Activity_18c0agn" targetRef="Gateway_109mr0n" />
-    <bpmn:sequenceFlow id="Flow_1vxts8v" sourceRef="Activity_0oc62dn" targetRef="Gateway_0ljhby2" />
-    <bpmn:sequenceFlow id="Flow_0ldbk0y" sourceRef="Activity_02vc8zt" targetRef="Gateway_0ljhby2" />
+    <bpmn:sequenceFlow id="Flow_acceptRequestToGateway" sourceRef="Activity_1frjv00" targetRef="Gateway_evaluateCustomerRequestSecond" />
+    <bpmn:sequenceFlow id="Flow_denyRequestToGateway" sourceRef="Activity_RequestAcceptableToDenyRequest" targetRef="Gateway_evaluateCustomerRequestSecond" />
+    <bpmn:sequenceFlow id="Flow_dropoffItemToGateway" sourceRef="Activity_0oc62dn" targetRef="Gateway_choosePickupOrDropoffSecond" />
+    <bpmn:sequenceFlow id="Flow_pickupItemFromCustomerBringToStoreToGateway" sourceRef="Activity_02vc8zt" targetRef="Gateway_choosePickupOrDropoffSecond" />
     <bpmn:sequenceFlow id="Flow_fillPawnFormToAutomaticallyEvaluatePrice" sourceRef="Activity_fillPawnForm" targetRef="Activity_automatiallyEvaluatePrice" />
-    <bpmn:sequenceFlow id="Flow_1ox0vki" sourceRef="Activity_0ab9i2w" targetRef="Gateway_0ql0ns9" />
-    <bpmn:sequenceFlow id="Flow_15axzf3" sourceRef="Gateway_0ql0ns9" targetRef="Activity_0oc62dn">
+    <bpmn:sequenceFlow id="Flow_choosePickupOrDropoffToGateway" sourceRef="Activity_0ab9i2w" targetRef="Gateway_choosePickupOrDropoff" />
+    <bpmn:sequenceFlow id="Flow_gatewayToDropoffItem" sourceRef="Gateway_choosePickupOrDropoff" targetRef="Activity_0oc62dn">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPickup == false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_0dcghm3" sourceRef="Gateway_0ql0ns9" targetRef="Activity_1ymo216">
+    <bpmn:sequenceFlow id="Flow_gatewayToSchedulePickupTime" sourceRef="Gateway_choosePickupOrDropoff" targetRef="Activity_1ymo216">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPickup == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_1qou07z" sourceRef="Activity_1ymo216" targetRef="Activity_1v1rt9c" />
-    <bpmn:sequenceFlow id="Flow_0zuwkum" sourceRef="Activity_1w2oa2o" targetRef="Gateway_0cnxipd" />
-    <bpmn:sequenceFlow id="Flow_0rjj8un" name="Yes" sourceRef="Gateway_0cnxipd" targetRef="Activity_1frjv00">
+    <bpmn:sequenceFlow id="Flow_schedulePickupTimeToSavePickupData" sourceRef="Activity_1ymo216" targetRef="Activity_1v1rt9c" />
+    <bpmn:sequenceFlow id="Flow_EvaluateCustomerRequestToRequestAcceptable" sourceRef="Activity_1w2oa2o" targetRef="Gateway_evaluateCustomerRequest" />
+    <bpmn:sequenceFlow id="Flow_RequestAcceptableToAcceptRequest" name="Yes" sourceRef="Gateway_evaluateCustomerRequest" targetRef="Activity_1frjv00">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAcceptable == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_1wg8egk" name="No" sourceRef="Gateway_0cnxipd" targetRef="Activity_18c0agn">
+    <bpmn:sequenceFlow id="Flow_1wg8egk" name="No" sourceRef="Gateway_evaluateCustomerRequest" targetRef="Activity_RequestAcceptableToDenyRequest">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAcceptable == false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:exclusiveGateway id="Gateway_109mr0n">
-      <bpmn:incoming>Flow_1bsmecw</bpmn:incoming>
-      <bpmn:incoming>Flow_1r4p2qr</bpmn:incoming>
-      <bpmn:outgoing>Flow_1j5aoxz</bpmn:outgoing>
+    <bpmn:exclusiveGateway id="Gateway_evaluateCustomerRequestSecond">
+      <bpmn:incoming>Flow_acceptRequestToGateway</bpmn:incoming>
+      <bpmn:incoming>Flow_denyRequestToGateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_decidedToUpdateRequestStatus</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_1j5aoxz" sourceRef="Gateway_109mr0n" targetRef="Activity_1ber7v0" />
-    <bpmn:dataObjectReference id="DataObjectReference_0bejxzq" name="updated request data" dataObjectRef="DataObject_1uanany" />
+    <bpmn:sequenceFlow id="Flow_decidedToUpdateRequestStatus" sourceRef="Gateway_evaluateCustomerRequestSecond" targetRef="Activity_1ber7v0" />
+    <bpmn:dataObjectReference id="DataObjectReference_updatedRequestData" name="updated request data" dataObjectRef="DataObject_1uanany" />
     <bpmn:dataObject id="DataObject_1uanany" />
-    <bpmn:sequenceFlow id="Flow_0ce0001" name="Yes" sourceRef="Activity_0le40zj" targetRef="Activity_0ab9i2w" />
-    <bpmn:exclusiveGateway id="Gateway_1uiu3gk" name="Request accepted?">
-      <bpmn:incoming>Flow_195k8ye</bpmn:incoming>
-      <bpmn:outgoing>Flow_1qzb8q1</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0tw8gi3</bpmn:outgoing>
+    <bpmn:sequenceFlow id="Flow_loadAcceptedRequestDataToChoosePickupOrDropoff" name="Yes" sourceRef="Activity_0le40zj" targetRef="Activity_0ab9i2w" />
+    <bpmn:exclusiveGateway id="Gateway_updateRequestStatus" name="Request accepted?">
+      <bpmn:incoming>Flow_updateStatusToGateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_requestAcceptedToEnd</bpmn:outgoing>
+      <bpmn:outgoing>Flow_requestAcceptedToLoadAcceptedRequestData</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:endEvent id="Event_0k4owcl">
-      <bpmn:incoming>Flow_1qzb8q1</bpmn:incoming>
+      <bpmn:incoming>Flow_requestAcceptedToEnd</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_195k8ye" sourceRef="Activity_1ber7v0" targetRef="Gateway_1uiu3gk" />
-    <bpmn:sequenceFlow id="Flow_1qzb8q1" name="No" sourceRef="Gateway_1uiu3gk" targetRef="Event_0k4owcl">
+    <bpmn:sequenceFlow id="Flow_updateStatusToGateway" sourceRef="Activity_1ber7v0" targetRef="Gateway_updateRequestStatus" />
+    <bpmn:sequenceFlow id="Flow_requestAcceptedToEnd" name="No" sourceRef="Gateway_updateRequestStatus" targetRef="Event_0k4owcl">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${request_accepted == false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:dataObjectReference id="DataObjectReference_1g4tmc6" name="Accepted request data + Pickup time" dataObjectRef="DataObject_1kyicz0" />
+    <bpmn:dataObjectReference id="DataObjectReference_acceptedRequestDataAndPickupTime" name="Accepted request data + Pickup time" dataObjectRef="DataObject_1kyicz0" />
     <bpmn:dataObject id="DataObject_1kyicz0" />
-    <bpmn:sequenceFlow id="Flow_0tw8gi3" sourceRef="Gateway_1uiu3gk" targetRef="Activity_0le40zj" />
-    <bpmn:dataObjectReference id="DataObjectReference_1kp6i88" name="Accepted request data" dataObjectRef="DataObject_0ao9qgo" />
+    <bpmn:sequenceFlow id="Flow_requestAcceptedToLoadAcceptedRequestData" sourceRef="Gateway_updateRequestStatus" targetRef="Activity_0le40zj" />
+    <bpmn:dataObjectReference id="DataObjectReference_acceptedRequestData" name="Accepted request data" dataObjectRef="DataObject_0ao9qgo" />
     <bpmn:dataObject id="DataObject_0ao9qgo" />
     <bpmn:serviceTask id="Activity_0le40zj" name="Load Accepted Request Data" camunda:class="load_accepted_request_data">
-      <bpmn:incoming>Flow_0tw8gi3</bpmn:incoming>
-      <bpmn:outgoing>Flow_0ce0001</bpmn:outgoing>
+      <bpmn:incoming>Flow_requestAcceptedToLoadAcceptedRequestData</bpmn:incoming>
+      <bpmn:outgoing>Flow_loadAcceptedRequestDataToChoosePickupOrDropoff</bpmn:outgoing>
       <bpmn:property id="Property_0ajj6xi" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_0s80xru">
+      <bpmn:dataInputAssociation id="DataInputAssociation_databaseToLoadAcceptedRequestData">
         <bpmn:sourceRef>DataStoreReference_0rhf4ea</bpmn:sourceRef>
         <bpmn:targetRef>Property_0ajj6xi</bpmn:targetRef>
       </bpmn:dataInputAssociation>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_0eq77bo">
-        <bpmn:targetRef>DataObjectReference_1kp6i88</bpmn:targetRef>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_loadAcceptedRequestDataToAcceptedRequestData">
+        <bpmn:targetRef>DataObjectReference_acceptedRequestData</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="Gateway_0ljhby2">
-      <bpmn:incoming>Flow_0ldbk0y</bpmn:incoming>
-      <bpmn:incoming>Flow_1vxts8v</bpmn:incoming>
-      <bpmn:outgoing>Flow_1v3vz9a</bpmn:outgoing>
+    <bpmn:exclusiveGateway id="Gateway_choosePickupOrDropoffSecond">
+      <bpmn:incoming>Flow_pickupItemFromCustomerBringToStoreToGateway</bpmn:incoming>
+      <bpmn:incoming>Flow_dropoffItemToGateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_gatewayToEvaluateItem</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_1v3vz9a" sourceRef="Gateway_0ljhby2" targetRef="Activity_1lme773" />
+    <bpmn:sequenceFlow id="Flow_gatewayToEvaluateItem" sourceRef="Gateway_choosePickupOrDropoffSecond" targetRef="Activity_1lme773" />
     <bpmn:manualTask id="Activity_1lme773" name="Evaluate item">
-      <bpmn:incoming>Flow_1v3vz9a</bpmn:incoming>
-      <bpmn:outgoing>Flow_1ympocb</bpmn:outgoing>
+      <bpmn:incoming>Flow_gatewayToEvaluateItem</bpmn:incoming>
+      <bpmn:outgoing>Flow_evaluateItemToGateway</bpmn:outgoing>
     </bpmn:manualTask>
-    <bpmn:exclusiveGateway id="Gateway_0zkwt6e" name="Payment offer acceptable by customer?">
-      <bpmn:incoming>Flow_1ympocb</bpmn:incoming>
-      <bpmn:outgoing>Flow_14f4whi</bpmn:outgoing>
-      <bpmn:outgoing>Flow_11sttot</bpmn:outgoing>
+    <bpmn:exclusiveGateway id="Gateway_evaluateItem" name="Payment offer acceptable by customer?">
+      <bpmn:incoming>Flow_evaluateItemToGateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_gatewayToCancelPayment</bpmn:outgoing>
+      <bpmn:outgoing>Flow_gatewayToConfirmPayment</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:task id="Activity_02w8amq" name="Confirm Payment">
-      <bpmn:incoming>Flow_11sttot</bpmn:incoming>
-      <bpmn:outgoing>Flow_1cg53pi</bpmn:outgoing>
+      <bpmn:incoming>Flow_gatewayToConfirmPayment</bpmn:incoming>
+      <bpmn:outgoing>Flow_confirmPaymentToGateway</bpmn:outgoing>
       <bpmn:property id="Property_1qlowc2" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_12xluv9">
-        <bpmn:sourceRef>DataObjectReference_1kp6i88</bpmn:sourceRef>
+      <bpmn:dataInputAssociation id="DataInputAssociation_acceptedRequestDataToConfirmPayment">
+        <bpmn:sourceRef>DataObjectReference_acceptedRequestData</bpmn:sourceRef>
         <bpmn:targetRef>Property_1qlowc2</bpmn:targetRef>
       </bpmn:dataInputAssociation>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_1cuq360">
-        <bpmn:targetRef>DataObjectReference_1o3y6y7</bpmn:targetRef>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_confirmPaymentToUpdatedPaymentData">
+        <bpmn:targetRef>DataObjectReference_updatedPaymentData</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:task>
     <bpmn:task id="Activity_010sbom" name="Cancel payment">
-      <bpmn:incoming>Flow_14f4whi</bpmn:incoming>
-      <bpmn:outgoing>Flow_08gyskj</bpmn:outgoing>
+      <bpmn:incoming>Flow_gatewayToCancelPayment</bpmn:incoming>
+      <bpmn:outgoing>Flow_cancelPaymentToGateway</bpmn:outgoing>
       <bpmn:property id="Property_02ynz89" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_0u3yv21">
-        <bpmn:sourceRef>DataObjectReference_1kp6i88</bpmn:sourceRef>
+      <bpmn:dataInputAssociation id="DataInputAssociation_acceptedRequestDataToCancelPayment">
+        <bpmn:sourceRef>DataObjectReference_acceptedRequestData</bpmn:sourceRef>
         <bpmn:targetRef>Property_02ynz89</bpmn:targetRef>
       </bpmn:dataInputAssociation>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_1tmsrp9">
-        <bpmn:targetRef>DataObjectReference_1o3y6y7</bpmn:targetRef>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_cancelPaymentToUpdatedPaymentData">
+        <bpmn:targetRef>DataObjectReference_updatedPaymentData</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:task>
-    <bpmn:sequenceFlow id="Flow_1ympocb" sourceRef="Activity_1lme773" targetRef="Gateway_0zkwt6e" />
-    <bpmn:sequenceFlow id="Flow_14f4whi" name="No" sourceRef="Gateway_0zkwt6e" targetRef="Activity_010sbom">
+    <bpmn:sequenceFlow id="Flow_evaluateItemToGateway" sourceRef="Activity_1lme773" targetRef="Gateway_evaluateItem" />
+    <bpmn:sequenceFlow id="Flow_gatewayToCancelPayment" name="No" sourceRef="Gateway_evaluateItem" targetRef="Activity_010sbom">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPaymentAccepted == false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_11sttot" name="Yes" sourceRef="Gateway_0zkwt6e" targetRef="Activity_02w8amq">
+    <bpmn:sequenceFlow id="Flow_gatewayToConfirmPayment" name="Yes" sourceRef="Gateway_evaluateItem" targetRef="Activity_02w8amq">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPaymentAccepted == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_1cg53pi" sourceRef="Activity_02w8amq" targetRef="Gateway_0jssrcq" />
-    <bpmn:sequenceFlow id="Flow_08gyskj" sourceRef="Activity_010sbom" targetRef="Gateway_0jssrcq" />
-    <bpmn:sequenceFlow id="Flow_14kqxet" sourceRef="Activity_0q18x2i" targetRef="Event_0msz05j" />
-    <bpmn:sequenceFlow id="Flow_0qguqnf" sourceRef="Gateway_0jssrcq" targetRef="Activity_0q18x2i" />
+    <bpmn:sequenceFlow id="Flow_confirmPaymentToGateway" sourceRef="Activity_02w8amq" targetRef="Gateway_evaluateItemSecond" />
+    <bpmn:sequenceFlow id="Flow_cancelPaymentToGateway" sourceRef="Activity_010sbom" targetRef="Gateway_evaluateItemSecond" />
+    <bpmn:sequenceFlow id="Flow_updateRequestStatusToEnd" sourceRef="Activity_0q18x2i" targetRef="Event_0msz05j" />
+    <bpmn:sequenceFlow id="Flow_gatewayToUpdateRequestStatus" sourceRef="Gateway_evaluateItemSecond" targetRef="Activity_0q18x2i" />
     <bpmn:serviceTask id="Activity_0q18x2i" name="Update request status" camunda:class="UpdateRequestStatus">
-      <bpmn:incoming>Flow_0qguqnf</bpmn:incoming>
-      <bpmn:outgoing>Flow_14kqxet</bpmn:outgoing>
+      <bpmn:incoming>Flow_gatewayToUpdateRequestStatus</bpmn:incoming>
+      <bpmn:outgoing>Flow_updateRequestStatusToEnd</bpmn:outgoing>
       <bpmn:property id="Property_1iw4j5l" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_1fnk7fm">
-        <bpmn:sourceRef>DataObjectReference_1o3y6y7</bpmn:sourceRef>
+      <bpmn:dataInputAssociation id="DataInputAssociation_updatedPaymentDataToUpdateRequestStatus">
+        <bpmn:sourceRef>DataObjectReference_updatedPaymentData</bpmn:sourceRef>
         <bpmn:targetRef>Property_1iw4j5l</bpmn:targetRef>
       </bpmn:dataInputAssociation>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_1drdzbs">
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_updateRequestStatusToDatabaseSecond">
         <bpmn:targetRef>DataStoreReference_0rhf4ea</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
     <bpmn:endEvent id="Event_0msz05j">
-      <bpmn:incoming>Flow_14kqxet</bpmn:incoming>
+      <bpmn:incoming>Flow_updateRequestStatusToEnd</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:exclusiveGateway id="Gateway_0jssrcq">
-      <bpmn:incoming>Flow_1cg53pi</bpmn:incoming>
-      <bpmn:incoming>Flow_08gyskj</bpmn:incoming>
-      <bpmn:outgoing>Flow_0qguqnf</bpmn:outgoing>
+    <bpmn:exclusiveGateway id="Gateway_evaluateItemSecond">
+      <bpmn:incoming>Flow_confirmPaymentToGateway</bpmn:incoming>
+      <bpmn:incoming>Flow_cancelPaymentToGateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_gatewayToUpdateRequestStatus</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:dataObjectReference id="DataObjectReference_1o3y6y7" name="Updated Payment data" dataObjectRef="DataObject_1hstse9" />
+    <bpmn:dataObjectReference id="DataObjectReference_updatedPaymentData" name="Updated Payment data" dataObjectRef="DataObject_1hstse9" />
     <bpmn:dataObject id="DataObject_1hstse9" />
     <bpmn:serviceTask id="Activity_1ber7v0" name="Update request status" camunda:class="UpdateRequestStatus">
-      <bpmn:incoming>Flow_1j5aoxz</bpmn:incoming>
-      <bpmn:outgoing>Flow_195k8ye</bpmn:outgoing>
+      <bpmn:incoming>Flow_decidedToUpdateRequestStatus</bpmn:incoming>
+      <bpmn:outgoing>Flow_updateStatusToGateway</bpmn:outgoing>
       <bpmn:property id="Property_00xbn8i" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_0fwkgvd">
-        <bpmn:sourceRef>DataObjectReference_0bejxzq</bpmn:sourceRef>
+      <bpmn:dataInputAssociation id="DataInputAssociation_updatedRequestDataToUpdateRequestStatus">
+        <bpmn:sourceRef>DataObjectReference_updatedRequestData</bpmn:sourceRef>
         <bpmn:targetRef>Property_00xbn8i</bpmn:targetRef>
       </bpmn:dataInputAssociation>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_0k2n5yy">
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_updateRequestStatusToDatabase">
         <bpmn:targetRef>DataStoreReference_0rhf4ea</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_1hys51q" sourceRef="Activity_0rlopb8" targetRef="Activity_1w2oa2o" />
-    <bpmn:sequenceFlow id="Flow_0isolp0" sourceRef="Activity_1v1rt9c" targetRef="Activity_02vc8zt" />
-    <bpmn:task id="Activity_18c0agn" name="Deny request">
+    <bpmn:sequenceFlow id="Flow_savePawnDataToEvaluateCustomerRequest" sourceRef="Activity_0rlopb8" targetRef="Activity_1w2oa2o" />
+    <bpmn:sequenceFlow id="Flow_savePickupDataToPickupItemFromCustomerBringToStore" sourceRef="Activity_1v1rt9c" targetRef="Activity_02vc8zt" />
+    <bpmn:task id="Activity_RequestAcceptableToDenyRequest" name="Deny request">
       <bpmn:incoming>Flow_1wg8egk</bpmn:incoming>
-      <bpmn:outgoing>Flow_1r4p2qr</bpmn:outgoing>
+      <bpmn:outgoing>Flow_denyRequestToGateway</bpmn:outgoing>
       <bpmn:property id="Property_0dn642a" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_1vmf8g6">
-        <bpmn:sourceRef>DataObjectReference_099so36</bpmn:sourceRef>
+      <bpmn:dataInputAssociation id="DataInputAssociation_pawnDataWithEstimationToDenyRequest">
+        <bpmn:sourceRef>DataObjectReference_pawnDataWithEstimation</bpmn:sourceRef>
         <bpmn:targetRef>Property_0dn642a</bpmn:targetRef>
       </bpmn:dataInputAssociation>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_0e9dbxg">
-        <bpmn:targetRef>DataObjectReference_0bejxzq</bpmn:targetRef>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_denyRequestToUpdatedRequestData">
+        <bpmn:targetRef>DataObjectReference_updatedRequestData</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:task>
     <bpmn:task id="Activity_1frjv00" name="Accept request">
-      <bpmn:incoming>Flow_0rjj8un</bpmn:incoming>
-      <bpmn:outgoing>Flow_1bsmecw</bpmn:outgoing>
+      <bpmn:incoming>Flow_RequestAcceptableToAcceptRequest</bpmn:incoming>
+      <bpmn:outgoing>Flow_acceptRequestToGateway</bpmn:outgoing>
       <bpmn:property id="Property_1xyo2nm" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_1czy5ui">
-        <bpmn:sourceRef>DataObjectReference_099so36</bpmn:sourceRef>
+      <bpmn:dataInputAssociation id="DataInputAssociation_pawnDataWithEstimationToAcceptRequest">
+        <bpmn:sourceRef>DataObjectReference_pawnDataWithEstimation</bpmn:sourceRef>
         <bpmn:targetRef>Property_1xyo2nm</bpmn:targetRef>
       </bpmn:dataInputAssociation>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_0td08j1">
-        <bpmn:targetRef>DataObjectReference_0bejxzq</bpmn:targetRef>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_acceptRequestToUpdatedRequestData">
+        <bpmn:targetRef>DataObjectReference_updatedRequestData</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:task>
     <bpmn:manualTask id="Activity_1w2oa2o" name="Evaluate customer request">
-      <bpmn:incoming>Flow_1hys51q</bpmn:incoming>
-      <bpmn:outgoing>Flow_0zuwkum</bpmn:outgoing>
+      <bpmn:incoming>Flow_savePawnDataToEvaluateCustomerRequest</bpmn:incoming>
+      <bpmn:outgoing>Flow_EvaluateCustomerRequestToRequestAcceptable</bpmn:outgoing>
       <bpmn:property id="Property_04tw8ky" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_0uhhrih">
-        <bpmn:sourceRef>DataObjectReference_099so36</bpmn:sourceRef>
+      <bpmn:dataInputAssociation id="DataInputAssociation_pawnDataWithEstimationToEvaluateCustomerRequest">
+        <bpmn:sourceRef>DataObjectReference_pawnDataWithEstimation</bpmn:sourceRef>
         <bpmn:targetRef>Property_04tw8ky</bpmn:targetRef>
       </bpmn:dataInputAssociation>
       <bpmn:standardLoopCharacteristics />
@@ -337,11 +337,6 @@
     <bpmn:endEvent id="Event_0vvkeef">
       <bpmn:incoming>Flow_respondEstimationToEnd</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:exclusiveGateway id="Gateway_respondEstimation">
-      <bpmn:incoming>Flow_respondEstimationToGateway</bpmn:incoming>
-      <bpmn:outgoing>Flow_respondEstimationToEnd</bpmn:outgoing>
-      <bpmn:outgoing>Flow_respondEstimationToSavePawnData</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_automaticallyEvaluatePriceToRespondEstimation" sourceRef="Activity_automatiallyEvaluatePrice" targetRef="Activity_respondEstimation" />
     <bpmn:userTask id="Activity_respondEstimation" name="Respond the estimation">
       <bpmn:extensionElements>
@@ -351,6 +346,11 @@
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_automaticallyEvaluatePriceToRespondEstimation</bpmn:incoming>
       <bpmn:outgoing>Flow_respondEstimationToGateway</bpmn:outgoing>
+      <bpmn:property id="Property_02h8jh4" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_pawnDataWithEstimationToRespondEstimation">
+        <bpmn:sourceRef>DataObjectReference_pawnDataWithEstimation</bpmn:sourceRef>
+        <bpmn:targetRef>Property_02h8jh4</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_respondEstimationToGateway" sourceRef="Activity_respondEstimation" targetRef="Gateway_respondEstimation" />
     <bpmn:sequenceFlow id="Flow_respondEstimationToEnd" sourceRef="Gateway_respondEstimation" targetRef="Event_0vvkeef">
@@ -359,10 +359,15 @@
     <bpmn:sequenceFlow id="Flow_respondEstimationToSavePawnData" sourceRef="Gateway_respondEstimation" targetRef="Activity_0rlopb8">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${estimationAccepted == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="Gateway_respondEstimation">
+      <bpmn:incoming>Flow_respondEstimationToGateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_respondEstimationToEnd</bpmn:outgoing>
+      <bpmn:outgoing>Flow_respondEstimationToSavePawnData</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
     <bpmn:textAnnotation id="TextAnnotation_0lspe22">
       <bpmn:text>for evaluation</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:association id="Association_10dr6x5" sourceRef="DataObjectReference_00j4cfd" targetRef="TextAnnotation_0lspe22" />
+    <bpmn:association id="Association_10dr6x5" sourceRef="DataObjectReference_pawnData" targetRef="TextAnnotation_0lspe22" />
   </bpmn:process>
   <bpmn:message id="Message_173ogpv" name="Message_1rivuj6" />
   <bpmn:message id="Message_1evi5fs" name="Message_3ote22o" />
@@ -388,20 +393,18 @@
         <dc:Bounds x="190" y="1460" width="3138" height="340" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0ymhaze_di" bpmnElement="Flow_respondEstimationToSavePawnData">
-        <di:waypoint x="685" y="250" />
-        <di:waypoint x="810" y="250" />
+        <di:waypoint x="685" y="270" />
+        <di:waypoint x="810" y="270" />
         <di:waypoint x="810" y="450" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1rnsaiq_di" bpmnElement="Flow_respondEstimationToEnd">
-        <di:waypoint x="660" y="225" />
+        <di:waypoint x="660" y="245" />
         <di:waypoint x="660" y="140" />
         <di:waypoint x="952" y="140" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_187abah_di" bpmnElement="Flow_respondEstimationToGateway">
         <di:waypoint x="570" y="270" />
-        <di:waypoint x="603" y="270" />
-        <di:waypoint x="603" y="250" />
-        <di:waypoint x="635" y="250" />
+        <di:waypoint x="635" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_106wuby_di" bpmnElement="Flow_automaticallyEvaluatePriceToRespondEstimation">
         <di:waypoint x="520" y="500" />
@@ -411,36 +414,36 @@
         <di:waypoint x="288" y="270" />
         <di:waypoint x="330" y="270" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0isolp0_di" bpmnElement="Flow_0isolp0">
+      <bpmndi:BPMNEdge id="Flow_0isolp0_di" bpmnElement="Flow_savePickupDataToPickupItemFromCustomerBringToStore">
         <di:waypoint x="2130" y="560" />
         <di:waypoint x="2130" y="930" />
         <di:waypoint x="2340" y="930" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1hys51q_di" bpmnElement="Flow_1hys51q">
+      <bpmndi:BPMNEdge id="Flow_1hys51q_di" bpmnElement="Flow_savePawnDataToEvaluateCustomerRequest">
         <di:waypoint x="860" y="490" />
         <di:waypoint x="1080" y="490" />
         <di:waypoint x="1080" y="1210" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0qguqnf_di" bpmnElement="Flow_0qguqnf">
+      <bpmndi:BPMNEdge id="Flow_0qguqnf_di" bpmnElement="Flow_gatewayToUpdateRequestStatus">
         <di:waypoint x="3055" y="1630" />
         <di:waypoint x="3090" y="1630" />
         <di:waypoint x="3090" y="660" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_14kqxet_di" bpmnElement="Flow_14kqxet">
+      <bpmndi:BPMNEdge id="Flow_14kqxet_di" bpmnElement="Flow_updateRequestStatusToEnd">
         <di:waypoint x="3140" y="620" />
         <di:waypoint x="3192" y="620" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_08gyskj_di" bpmnElement="Flow_08gyskj">
+      <bpmndi:BPMNEdge id="Flow_08gyskj_di" bpmnElement="Flow_cancelPaymentToGateway">
         <di:waypoint x="2910" y="1730" />
         <di:waypoint x="3030" y="1730" />
         <di:waypoint x="3030" y="1655" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1cg53pi_di" bpmnElement="Flow_1cg53pi">
+      <bpmndi:BPMNEdge id="Flow_1cg53pi_di" bpmnElement="Flow_confirmPaymentToGateway">
         <di:waypoint x="2910" y="1530" />
         <di:waypoint x="3030" y="1530" />
         <di:waypoint x="3030" y="1605" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_11sttot_di" bpmnElement="Flow_11sttot">
+      <bpmndi:BPMNEdge id="Flow_11sttot_di" bpmnElement="Flow_gatewayToConfirmPayment">
         <di:waypoint x="2690" y="1605" />
         <di:waypoint x="2690" y="1540" />
         <di:waypoint x="2810" y="1540" />
@@ -448,7 +451,7 @@
           <dc:Bounds x="2671" y="1549" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_14f4whi_di" bpmnElement="Flow_14f4whi">
+      <bpmndi:BPMNEdge id="Flow_14f4whi_di" bpmnElement="Flow_gatewayToCancelPayment">
         <di:waypoint x="2690" y="1655" />
         <di:waypoint x="2690" y="1730" />
         <di:waypoint x="2810" y="1730" />
@@ -456,38 +459,38 @@
           <dc:Bounds x="2667" y="1683" width="15" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1ympocb_di" bpmnElement="Flow_1ympocb">
+      <bpmndi:BPMNEdge id="Flow_1ympocb_di" bpmnElement="Flow_evaluateItemToGateway">
         <di:waypoint x="2590" y="1630" />
         <di:waypoint x="2665" y="1630" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1v3vz9a_di" bpmnElement="Flow_1v3vz9a">
+      <bpmndi:BPMNEdge id="Flow_1v3vz9a_di" bpmnElement="Flow_gatewayToEvaluateItem">
         <di:waypoint x="2460" y="1425" />
         <di:waypoint x="2460" y="1630" />
         <di:waypoint x="2490" y="1630" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0tw8gi3_di" bpmnElement="Flow_0tw8gi3">
+      <bpmndi:BPMNEdge id="Flow_0tw8gi3_di" bpmnElement="Flow_requestAcceptedToLoadAcceptedRequestData">
         <di:waypoint x="1710" y="555" />
         <di:waypoint x="1710" y="500" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1qzb8q1_di" bpmnElement="Flow_1qzb8q1">
+      <bpmndi:BPMNEdge id="Flow_1qzb8q1_di" bpmnElement="Flow_requestAcceptedToEnd">
         <di:waypoint x="1735" y="580" />
         <di:waypoint x="1812" y="580" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1766" y="562" width="15" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_195k8ye_di" bpmnElement="Flow_195k8ye">
+      <bpmndi:BPMNEdge id="Flow_195k8ye_di" bpmnElement="Flow_updateStatusToGateway">
         <di:waypoint x="1710" y="680" />
         <di:waypoint x="1710" y="605" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0ce0001_di" bpmnElement="Flow_0ce0001">
+      <bpmndi:BPMNEdge id="Flow_0ce0001_di" bpmnElement="Flow_loadAcceptedRequestDataToChoosePickupOrDropoff">
         <di:waypoint x="1710" y="420" />
         <di:waypoint x="1710" y="270" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1721" y="543" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1j5aoxz_di" bpmnElement="Flow_1j5aoxz">
+      <bpmndi:BPMNEdge id="Flow_1j5aoxz_di" bpmnElement="Flow_decidedToUpdateRequestStatus">
         <di:waypoint x="1685" y="1250" />
         <di:waypoint x="1710" y="1250" />
         <di:waypoint x="1710" y="760" />
@@ -500,7 +503,7 @@
           <dc:Bounds x="1207" y="1303" width="15" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0rjj8un_di" bpmnElement="Flow_0rjj8un">
+      <bpmndi:BPMNEdge id="Flow_0rjj8un_di" bpmnElement="Flow_RequestAcceptableToAcceptRequest">
         <di:waypoint x="1230" y="1225" />
         <di:waypoint x="1230" y="1160" />
         <di:waypoint x="1350" y="1160" />
@@ -508,26 +511,26 @@
           <dc:Bounds x="1211" y="1169" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0zuwkum_di" bpmnElement="Flow_0zuwkum">
+      <bpmndi:BPMNEdge id="Flow_0zuwkum_di" bpmnElement="Flow_EvaluateCustomerRequestToRequestAcceptable">
         <di:waypoint x="1130" y="1250" />
         <di:waypoint x="1205" y="1250" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1qou07z_di" bpmnElement="Flow_1qou07z">
+      <bpmndi:BPMNEdge id="Flow_1qou07z_di" bpmnElement="Flow_schedulePickupTimeToSavePickupData">
         <di:waypoint x="2070" y="300" />
         <di:waypoint x="2120" y="300" />
         <di:waypoint x="2120" y="480" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0dcghm3_di" bpmnElement="Flow_0dcghm3">
+      <bpmndi:BPMNEdge id="Flow_0dcghm3_di" bpmnElement="Flow_gatewayToSchedulePickupTime">
         <di:waypoint x="1850" y="255" />
         <di:waypoint x="1850" y="300" />
         <di:waypoint x="1970" y="300" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_15axzf3_di" bpmnElement="Flow_15axzf3">
+      <bpmndi:BPMNEdge id="Flow_15axzf3_di" bpmnElement="Flow_gatewayToDropoffItem">
         <di:waypoint x="1850" y="205" />
         <di:waypoint x="1850" y="150" />
         <di:waypoint x="1960" y="150" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1ox0vki_di" bpmnElement="Flow_1ox0vki">
+      <bpmndi:BPMNEdge id="Flow_1ox0vki_di" bpmnElement="Flow_choosePickupOrDropoffToGateway">
         <di:waypoint x="1760" y="230" />
         <di:waypoint x="1825" y="230" />
       </bpmndi:BPMNEdge>
@@ -536,23 +539,23 @@
         <di:waypoint x="400" y="540" />
         <di:waypoint x="470" y="540" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0ldbk0y_di" bpmnElement="Flow_0ldbk0y">
+      <bpmndi:BPMNEdge id="Flow_0ldbk0y_di" bpmnElement="Flow_pickupItemFromCustomerBringToStoreToGateway">
         <di:waypoint x="2380" y="950" />
         <di:waypoint x="2380" y="1400" />
         <di:waypoint x="2435" y="1400" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1vxts8v_di" bpmnElement="Flow_1vxts8v">
+      <bpmndi:BPMNEdge id="Flow_1vxts8v_di" bpmnElement="Flow_dropoffItemToGateway">
         <di:waypoint x="2060" y="150" />
         <di:waypoint x="2530" y="150" />
         <di:waypoint x="2530" y="1400" />
         <di:waypoint x="2490" y="1400" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1r4p2qr_di" bpmnElement="Flow_1r4p2qr">
+      <bpmndi:BPMNEdge id="Flow_1r4p2qr_di" bpmnElement="Flow_denyRequestToGateway">
         <di:waypoint x="1450" y="1330" />
         <di:waypoint x="1660" y="1330" />
         <di:waypoint x="1660" y="1275" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1bsmecw_di" bpmnElement="Flow_1bsmecw">
+      <bpmndi:BPMNEdge id="Flow_1bsmecw_di" bpmnElement="Flow_acceptRequestToGateway">
         <di:waypoint x="1450" y="1170" />
         <di:waypoint x="1660" y="1170" />
         <di:waypoint x="1660" y="1225" />
@@ -572,7 +575,7 @@
       <bpmndi:BPMNShape id="Activity_1dusazi_di" bpmnElement="Activity_0ab9i2w">
         <dc:Bounds x="1660" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0ql0ns9_di" bpmnElement="Gateway_0ql0ns9" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="Gateway_0ql0ns9_di" bpmnElement="Gateway_choosePickupOrDropoff" isMarkerVisible="true">
         <dc:Bounds x="1825" y="205" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_01q69xv_di" bpmnElement="Activity_0oc62dn">
@@ -587,10 +590,10 @@
       <bpmndi:BPMNShape id="Activity_1ltalrk_di" bpmnElement="Activity_automatiallyEvaluatePrice">
         <dc:Bounds x="470" y="500" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="DataObjectReference_00j4cfd_di" bpmnElement="DataObjectReference_00j4cfd">
+      <bpmndi:BPMNShape id="DataObjectReference_00j4cfd_di" bpmnElement="DataObjectReference_pawnData">
         <dc:Bounds x="342" y="515" width="36" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="276.5" y="533" width="55" height="14" />
+          <dc:Bounds x="277" y="533" width="55" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_02vc8zt_di" bpmnElement="Activity_02vc8zt">
@@ -599,31 +602,31 @@
       <bpmndi:BPMNShape id="Activity_03un1q7_di" bpmnElement="Activity_0rlopb8">
         <dc:Bounds x="760" y="450" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0cnxipd_di" bpmnElement="Gateway_0cnxipd" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="Gateway_0cnxipd_di" bpmnElement="Gateway_evaluateCustomerRequest" isMarkerVisible="true">
         <dc:Bounds x="1205" y="1225" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1250" y="1216" width="60" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="DataObjectReference_099so36_di" bpmnElement="DataObjectReference_099so36">
+      <bpmndi:BPMNShape id="DataObjectReference_099so36_di" bpmnElement="DataObjectReference_pawnDataWithEstimation">
         <dc:Bounds x="612" y="515" width="36" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="592" y="477.5" width="75" height="27" />
+          <dc:Bounds x="658" y="526" width="75" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_109mr0n_di" bpmnElement="Gateway_109mr0n" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="Gateway_109mr0n_di" bpmnElement="Gateway_evaluateCustomerRequestSecond" isMarkerVisible="true">
         <dc:Bounds x="1635" y="1225" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1690" y="1266" width="60" height="27" />
+          <dc:Bounds x="1679" y="1273" width="41" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="DataObjectReference_0bejxzq_di" bpmnElement="DataObjectReference_0bejxzq">
+      <bpmndi:BPMNShape id="DataObjectReference_0bejxzq_di" bpmnElement="DataObjectReference_updatedRequestData">
         <dc:Bounds x="1552" y="1225" width="36" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1530" y="1282" width="81" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1uiu3gk_di" bpmnElement="Gateway_1uiu3gk" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="Gateway_1uiu3gk_di" bpmnElement="Gateway_updateRequestStatus" isMarkerVisible="true">
         <dc:Bounds x="1685" y="555" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1629" y="555" width="52" height="27" />
@@ -632,13 +635,13 @@
       <bpmndi:BPMNShape id="Event_0k4owcl_di" bpmnElement="Event_0k4owcl">
         <dc:Bounds x="1812" y="562" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="DataObjectReference_1g4tmc6_di" bpmnElement="DataObjectReference_1g4tmc6">
+      <bpmndi:BPMNShape id="DataObjectReference_1g4tmc6_di" bpmnElement="DataObjectReference_acceptedRequestDataAndPickupTime">
         <dc:Bounds x="2232" y="265" width="36" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2297" y="270" width="86" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="DataObjectReference_1kp6i88_di" bpmnElement="DataObjectReference_1kp6i88">
+      <bpmndi:BPMNShape id="DataObjectReference_1kp6i88_di" bpmnElement="DataObjectReference_acceptedRequestData">
         <dc:Bounds x="1772" y="305" width="36" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1817" y="356" width="86" height="27" />
@@ -647,13 +650,13 @@
       <bpmndi:BPMNShape id="Activity_173y792_di" bpmnElement="Activity_0le40zj">
         <dc:Bounds x="1660" y="420" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0ljhby2_di" bpmnElement="Gateway_0ljhby2" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="Gateway_0ljhby2_di" bpmnElement="Gateway_choosePickupOrDropoffSecond" isMarkerVisible="true">
         <dc:Bounds x="2435" y="1375" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1lme773_di" bpmnElement="Activity_1lme773">
         <dc:Bounds x="2490" y="1590" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0zkwt6e_di" bpmnElement="Gateway_0zkwt6e" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="Gateway_0zkwt6e_di" bpmnElement="Gateway_evaluateItem" isMarkerVisible="true">
         <dc:Bounds x="2665" y="1605" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2735" y="1610" width="70" height="40" />
@@ -671,10 +674,10 @@
       <bpmndi:BPMNShape id="Event_0msz05j_di" bpmnElement="Event_0msz05j">
         <dc:Bounds x="3192" y="602" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0jssrcq_di" bpmnElement="Gateway_0jssrcq" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="Gateway_0jssrcq_di" bpmnElement="Gateway_evaluateItemSecond" isMarkerVisible="true">
         <dc:Bounds x="3005" y="1605" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="DataObjectReference_1o3y6y7_di" bpmnElement="DataObjectReference_1o3y6y7">
+      <bpmndi:BPMNShape id="DataObjectReference_1o3y6y7_di" bpmnElement="DataObjectReference_updatedPaymentData">
         <dc:Bounds x="2942" y="1605" width="36" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2915" y="1666" width="89" height="27" />
@@ -683,7 +686,7 @@
       <bpmndi:BPMNShape id="Activity_1jysg45_di" bpmnElement="Activity_1ber7v0">
         <dc:Bounds x="1660" y="680" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1stjg70_di" bpmnElement="Activity_18c0agn">
+      <bpmndi:BPMNShape id="Activity_1stjg70_di" bpmnElement="Activity_RequestAcceptableToDenyRequest">
         <dc:Bounds x="1350" y="1310" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0bfp9h2_di" bpmnElement="Activity_1frjv00">
@@ -695,14 +698,14 @@
       <bpmndi:BPMNShape id="Event_0vvkeef_di" bpmnElement="Event_0vvkeef">
         <dc:Bounds x="952" y="122" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0yibrv0_di" bpmnElement="Gateway_respondEstimation" isMarkerVisible="true">
-        <dc:Bounds x="635" y="225" width="50" height="50" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0xiivp1_di" bpmnElement="Activity_respondEstimation">
         <dc:Bounds x="470" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0lspe22_di" bpmnElement="TextAnnotation_0lspe22">
         <dc:Bounds x="380" y="620" width="99.99999794078421" height="29.993252876477367" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0yibrv0_di" bpmnElement="Gateway_respondEstimation" isMarkerVisible="true">
+        <dc:Bounds x="635" y="245" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_10dr6x5_di" bpmnElement="Association_10dr6x5">
         <di:waypoint x="360" y="565" />
@@ -713,7 +716,7 @@
         <di:waypoint x="358" y="310" />
         <di:waypoint x="358" y="515" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_1e006kg_di" bpmnElement="DataInputAssociation_1e006kg">
+      <bpmndi:BPMNEdge id="DataInputAssociation_1e006kg_di" bpmnElement="DataInputAssociation_acceptedRequestDataToChoosePickupDropoff">
         <di:waypoint x="1772" y="330" />
         <di:waypoint x="1740" y="330" />
         <di:waypoint x="1740" y="270" />
@@ -722,16 +725,16 @@
         <di:waypoint x="1810" y="320" />
         <di:waypoint x="1970" y="320" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_0df6c11_di" bpmnElement="DataOutputAssociation_0df6c11">
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0df6c11_di" bpmnElement="DataOutputAssociation_acceptedRequestDataAndPickupTime">
         <di:waypoint x="2070" y="285" />
         <di:waypoint x="2232" y="285" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_0cnra8f_di" bpmnElement="DataInputAssociation_0cnra8f">
+      <bpmndi:BPMNEdge id="DataInputAssociation_0cnra8f_di" bpmnElement="DataInputAssociation_acceptedRequestDataAndPickupTimeToSavePickupData">
         <di:waypoint x="2250" y="315" />
         <di:waypoint x="2250" y="520" />
         <di:waypoint x="2180" y="520" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_17a1aud_di" bpmnElement="DataOutputAssociation_17a1aud">
+      <bpmndi:BPMNEdge id="DataOutputAssociation_17a1aud_di" bpmnElement="DataOutputAssociation_savePickupDataToDatabase">
         <di:waypoint x="2080" y="520" />
         <di:waypoint x="1548" y="520" />
         <di:waypoint x="1548" y="595" />
@@ -744,7 +747,7 @@
         <di:waypoint x="570" y="540" />
         <di:waypoint x="610" y="540" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_14d4ita_di" bpmnElement="DataInputAssociation_14d4ita">
+      <bpmndi:BPMNEdge id="DataInputAssociation_14d4ita_di" bpmnElement="DataInputAssociation_acceptedRequestDataAndPickupTimeToPickItemBringToStore">
         <di:waypoint x="2250" y="315" />
         <di:waypoint x="2250" y="900" />
         <di:waypoint x="2340" y="900" />
@@ -754,87 +757,92 @@
         <di:waypoint x="810" y="560" />
         <di:waypoint x="810" y="530" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_1pdc631_di" bpmnElement="DataOutputAssociation_1pdc631">
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1pdc631_di" bpmnElement="DataOutputAssociation_savePawndataToDatabase">
         <di:waypoint x="860" y="470" />
         <di:waypoint x="1520" y="470" />
         <di:waypoint x="1520" y="595" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_0s80xru_di" bpmnElement="DataInputAssociation_0s80xru">
+      <bpmndi:BPMNEdge id="DataInputAssociation_0s80xru_di" bpmnElement="DataInputAssociation_databaseToLoadAcceptedRequestData">
         <di:waypoint x="1530" y="595" />
         <di:waypoint x="1530" y="460" />
         <di:waypoint x="1660" y="460" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_0eq77bo_di" bpmnElement="DataOutputAssociation_0eq77bo">
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0eq77bo_di" bpmnElement="DataOutputAssociation_loadAcceptedRequestDataToAcceptedRequestData">
         <di:waypoint x="1760" y="460" />
         <di:waypoint x="1788" y="460" />
         <di:waypoint x="1788" y="355" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_12xluv9_di" bpmnElement="DataInputAssociation_12xluv9">
+      <bpmndi:BPMNEdge id="DataInputAssociation_12xluv9_di" bpmnElement="DataInputAssociation_acceptedRequestDataToConfirmPayment">
         <di:waypoint x="1808" y="330" />
         <di:waypoint x="1920" y="330" />
         <di:waypoint x="1920" y="1510" />
         <di:waypoint x="2810" y="1510" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_1cuq360_di" bpmnElement="DataOutputAssociation_1cuq360">
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1cuq360_di" bpmnElement="DataOutputAssociation_confirmPaymentToUpdatedPaymentData">
         <di:waypoint x="2860" y="1570" />
         <di:waypoint x="2860" y="1620" />
         <di:waypoint x="2942" y="1620" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_0u3yv21_di" bpmnElement="DataInputAssociation_0u3yv21">
+      <bpmndi:BPMNEdge id="DataInputAssociation_0u3yv21_di" bpmnElement="DataInputAssociation_acceptedRequestDataToCancelPayment">
         <di:waypoint x="1808" y="330" />
         <di:waypoint x="1920" y="330" />
         <di:waypoint x="1920" y="1760" />
         <di:waypoint x="2500" y="1760" />
         <di:waypoint x="2810" y="1760" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_1tmsrp9_di" bpmnElement="DataOutputAssociation_1tmsrp9">
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1tmsrp9_di" bpmnElement="DataOutputAssociation_cancelPaymentToUpdatedPaymentData">
         <di:waypoint x="2860" y="1690" />
         <di:waypoint x="2860" y="1640" />
         <di:waypoint x="2942" y="1640" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_1fnk7fm_di" bpmnElement="DataInputAssociation_1fnk7fm">
+      <bpmndi:BPMNEdge id="DataInputAssociation_1fnk7fm_di" bpmnElement="DataInputAssociation_updatedPaymentDataToUpdateRequestStatus">
         <di:waypoint x="2960" y="1605" />
         <di:waypoint x="2960" y="640" />
         <di:waypoint x="3040" y="640" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_1drdzbs_di" bpmnElement="DataOutputAssociation_1drdzbs">
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1drdzbs_di" bpmnElement="DataOutputAssociation_updateRequestStatusToDatabaseSecond">
         <di:waypoint x="3040" y="620" />
         <di:waypoint x="1555" y="620" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_0fwkgvd_di" bpmnElement="DataInputAssociation_0fwkgvd">
+      <bpmndi:BPMNEdge id="DataInputAssociation_0fwkgvd_di" bpmnElement="DataInputAssociation_updatedRequestDataToUpdateRequestStatus">
         <di:waypoint x="1570" y="1225" />
         <di:waypoint x="1570" y="730" />
         <di:waypoint x="1660" y="730" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_0k2n5yy_di" bpmnElement="DataOutputAssociation_0k2n5yy">
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0k2n5yy_di" bpmnElement="DataOutputAssociation_updateRequestStatusToDatabase">
         <di:waypoint x="1660" y="710" />
         <di:waypoint x="1530" y="710" />
         <di:waypoint x="1530" y="645" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_1vmf8g6_di" bpmnElement="DataInputAssociation_1vmf8g6">
+      <bpmndi:BPMNEdge id="DataInputAssociation_1vmf8g6_di" bpmnElement="DataInputAssociation_pawnDataWithEstimationToDenyRequest">
         <di:waypoint x="630" y="565" />
         <di:waypoint x="630" y="1370" />
         <di:waypoint x="1350" y="1370" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_0e9dbxg_di" bpmnElement="DataOutputAssociation_0e9dbxg">
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0e9dbxg_di" bpmnElement="DataOutputAssociation_denyRequestToUpdatedRequestData">
         <di:waypoint x="1400" y="1310" />
         <di:waypoint x="1400" y="1255" />
         <di:waypoint x="1552" y="1255" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_1czy5ui_di" bpmnElement="DataInputAssociation_1czy5ui">
+      <bpmndi:BPMNEdge id="DataInputAssociation_1czy5ui_di" bpmnElement="DataInputAssociation_pawnDataWithEstimationToAcceptRequest">
         <di:waypoint x="630" y="565" />
         <di:waypoint x="630" y="1130" />
         <di:waypoint x="1350" y="1130" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_0td08j1_di" bpmnElement="DataOutputAssociation_0td08j1">
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0td08j1_di" bpmnElement="DataOutputAssociation_acceptRequestToUpdatedRequestData">
         <di:waypoint x="1400" y="1190" />
         <di:waypoint x="1400" y="1245" />
         <di:waypoint x="1552" y="1245" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_0uhhrih_di" bpmnElement="DataInputAssociation_0uhhrih">
+      <bpmndi:BPMNEdge id="DataInputAssociation_0uhhrih_di" bpmnElement="DataInputAssociation_pawnDataWithEstimationToEvaluateCustomerRequest">
         <di:waypoint x="630" y="565" />
         <di:waypoint x="630" y="1250" />
         <di:waypoint x="1030" y="1250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataInputAssociation_0yt5xj7_di" bpmnElement="DataInputAssociation_pawnDataWithEstimationToRespondEstimation">
+        <di:waypoint x="630" y="515" />
+        <di:waypoint x="630" y="300" />
+        <di:waypoint x="570" y="300" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
