@@ -6,11 +6,11 @@
   <bpmn:process id="Process_12x2cxl" isExecutable="true">
     <bpmn:laneSet id="LaneSet_098sp10">
       <bpmn:lane id="Lane_1d354gd" name="Front desk PawnShop Employee">
-        <bpmn:flowNodeRef>Activity_evaluateItem</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_evaluateItem</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_confirmPayment</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_cancelPayment</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_evaluateItemSecond</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_evaluateItem</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_1uki9jt" name="Delivery">
         <bpmn:flowNodeRef>Activity_pickupItemFromCustomer</bpmn:flowNodeRef>
@@ -245,10 +245,6 @@
       <bpmn:outgoing>Flow_gatewayToEvaluateItem</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_gatewayToEvaluateItem" sourceRef="Gateway_choosePickupOrDropoffSecond" targetRef="Activity_evaluateItem" />
-    <bpmn:manualTask id="Activity_evaluateItem" name="Evaluate item">
-      <bpmn:incoming>Flow_gatewayToEvaluateItem</bpmn:incoming>
-      <bpmn:outgoing>Flow_evaluateItemToGateway</bpmn:outgoing>
-    </bpmn:manualTask>
     <bpmn:exclusiveGateway id="Gateway_evaluateItem" name="Payment offer acceptable by customer?">
       <bpmn:incoming>Flow_evaluateItemToGateway</bpmn:incoming>
       <bpmn:outgoing>Flow_gatewayToCancelPayment</bpmn:outgoing>
@@ -349,16 +345,6 @@
         <bpmn:targetRef>DataObjectReference_updatedRequestData</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:task>
-    <bpmn:manualTask id="Activity_evaluateCustomerRequest" name="Evaluate customer request">
-      <bpmn:incoming>Flow_savePawnDataToEvaluateCustomerRequest</bpmn:incoming>
-      <bpmn:outgoing>Flow_EvaluateCustomerRequestToRequestAcceptable</bpmn:outgoing>
-      <bpmn:property id="Property_04tw8ky" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_pawnDataWithEstimationToEvaluateCustomerRequest">
-        <bpmn:sourceRef>DataObjectReference_pawnDataWithEstimation</bpmn:sourceRef>
-        <bpmn:targetRef>Property_04tw8ky</bpmn:targetRef>
-      </bpmn:dataInputAssociation>
-      <bpmn:standardLoopCharacteristics />
-    </bpmn:manualTask>
     <bpmn:sequenceFlow id="Flow_startToFillPawnForm" sourceRef="Event_start" targetRef="Activity_fillPawnForm" />
     <bpmn:endEvent id="Event_0vvkeef">
       <bpmn:incoming>Flow_respondEstimationToEnd</bpmn:incoming>
@@ -390,6 +376,30 @@
       <bpmn:outgoing>Flow_respondEstimationToEnd</bpmn:outgoing>
       <bpmn:outgoing>Flow_respondEstimationToSavePawnData</bpmn:outgoing>
     </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Activity_evaluateCustomerRequest" name="Evaluate customer request">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="isAcceptable" label="Is request acceptable for item ${itemName}?" type="boolean" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_savePawnDataToEvaluateCustomerRequest</bpmn:incoming>
+      <bpmn:outgoing>Flow_EvaluateCustomerRequestToRequestAcceptable</bpmn:outgoing>
+      <bpmn:property id="Property_1xxko4g" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_pawnDataWithEstimationToEvaluateCustomerRequest">
+        <bpmn:sourceRef>DataObjectReference_pawnDataWithEstimation</bpmn:sourceRef>
+        <bpmn:targetRef>Property_1xxko4g</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+      <bpmn:standardLoopCharacteristics />
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_evaluateItem" name="Evaluate item">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="isPaymentAccepted" label="Is payment acceptable for item ${itemName}" type="boolean" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_gatewayToEvaluateItem</bpmn:incoming>
+      <bpmn:outgoing>Flow_evaluateItemToGateway</bpmn:outgoing>
+    </bpmn:userTask>
     <bpmn:textAnnotation id="TextAnnotation_0lspe22">
       <bpmn:text>for evaluation</bpmn:text>
     </bpmn:textAnnotation>
@@ -679,9 +689,6 @@
       <bpmndi:BPMNShape id="Gateway_0ljhby2_di" bpmnElement="Gateway_choosePickupOrDropoffSecond" isMarkerVisible="true">
         <dc:Bounds x="2435" y="1375" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1lme773_di" bpmnElement="Activity_evaluateItem">
-        <dc:Bounds x="2490" y="1590" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0zkwt6e_di" bpmnElement="Gateway_evaluateItem" isMarkerVisible="true">
         <dc:Bounds x="2665" y="1605" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -718,9 +725,6 @@
       <bpmndi:BPMNShape id="Activity_0bfp9h2_di" bpmnElement="Activity_acceptRequest">
         <dc:Bounds x="1350" y="1110" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0vntyn8_di" bpmnElement="Activity_evaluateCustomerRequest">
-        <dc:Bounds x="1030" y="1210" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0vvkeef_di" bpmnElement="Event_0vvkeef">
         <dc:Bounds x="952" y="122" width="36" height="36" />
       </bpmndi:BPMNShape>
@@ -732,6 +736,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0lspe22_di" bpmnElement="TextAnnotation_0lspe22">
         <dc:Bounds x="380" y="620" width="99.99999794078421" height="29.993252876477367" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1jbwyhu_di" bpmnElement="Activity_evaluateCustomerRequest">
+        <dc:Bounds x="1030" y="1210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ava7tj_di" bpmnElement="Activity_evaluateItem">
+        <dc:Bounds x="2490" y="1590" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_10dr6x5_di" bpmnElement="Association_10dr6x5">
         <di:waypoint x="360" y="565" />
