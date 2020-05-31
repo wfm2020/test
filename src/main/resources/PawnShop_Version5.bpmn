@@ -53,7 +53,7 @@
     <bpmn:userTask id="Activity_fillPawnForm" name="Fill in pawn form">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="itemName" label="Item Name" type="string" defaultValue="testname">
+          <camunda:formField id="itemName" label="Item Name" type="string">
             <camunda:validation>
               <camunda:constraint name="required" />
               <camunda:constraint name="maxlength" config="40" />
@@ -68,14 +68,14 @@
             <camunda:value id="BRONZE" name="BRONZE" />
             <camunda:value id="PLATINUM" name="PLATINUM" />
           </camunda:formField>
-          <camunda:formField id="weight" label="weight (g)" type="long" defaultValue="0">
+          <camunda:formField id="weight" label="weight (g)" type="long">
             <camunda:validation>
               <camunda:constraint name="required" />
             </camunda:validation>
           </camunda:formField>
-          <camunda:formField id="firstName" label="firstName" type="string" defaultValue="Name user" />
-          <camunda:formField id="lastName" label="lastName" type="string" defaultValue="Last name" />
-          <camunda:formField id="email" label="email" type="string" defaultValue="email@gmail.com">
+          <camunda:formField id="firstName" label="firstName" type="string" />
+          <camunda:formField id="lastName" label="lastName" type="string"/>
+          <camunda:formField id="email" label="email" type="string">
             <camunda:validation>
               <camunda:constraint name="required" />
             </camunda:validation>

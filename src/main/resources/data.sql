@@ -19,9 +19,9 @@ CREATE TABLE pawned_item (
     weight float,
     price float,
     payed boolean,
-    customerID int not null,
+    customerid serial,
     PRIMARY KEY (ID),
-    FOREIGN KEY (customerID) REFERENCES customer(ID)
+    FOREIGN KEY (customerid) REFERENCES customer(ID)
 );
 
 INSERT INTO customer (first_name, last_name, email, birth_date, phone_number)

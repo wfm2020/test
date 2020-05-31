@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Table(name = "pawned_item")
 public class PawnedItem implements Serializable {
 
     @Id
@@ -24,7 +25,7 @@ public class PawnedItem implements Serializable {
     @Column
     private boolean payed;
     @ManyToOne
-    @JoinColumn(name = "customerID", nullable = false)
+    @JoinColumn(name = "customerid", nullable = false)
     private Customer customer;
 
     public PawnedItem() {

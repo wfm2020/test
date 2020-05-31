@@ -20,17 +20,31 @@ public class SavePawnData implements JavaDelegate {
 
         pawnDataDTO.setItemName((String) execution.getVariable("itemName"));
         pawnDataDTO.setMaterial(Material.valueOf((String) execution.getVariable("material")));
-        // camunda somehow does not support float or double types, cast from string instead
-        pawnDataDTO.setWeight(Float.parseFloat((String) execution.getVariable("weight")));
+        pawnDataDTO.setWeight(Float.valueOf((Long) execution.getVariable("weight")));
         pawnDataDTO.setPrice(Float.valueOf((Long) execution.getVariable("price")));
 
-        pawnDataDTO.setFirstName((String) execution.getVariable("firstName"));
-        pawnDataDTO.setLastName((String) execution.getVariable("lastName"));
+        String firstName = (String) execution.getVariable("firstName");
+        if(firstName != null){
+            pawnDataDTO.setFirstName(firstName);
+        }
+        String lastName = (String) execution.getVariable("lastName");
+        if(lastName != null){
+            pawnDataDTO.setLastName(lastName);
+        }
+
         pawnDataDTO.setEmail((String) execution.getVariable("email"));
-        pawnDataDTO.setPhoneNumber((String) execution.getVariable("phoneNumber"));
-        pawnDataDTO.setBirthDate(((Date) execution.getVariable("birthDate")).toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate());
+
+
+        String phoneNumber = (String) execution.getVariable("phoneNumber");
+        if(phoneNumber != null){
+            pawnDataDTO.setPhoneNumber(phoneNumber);
+        }
+        Date birthDate = (Date) execution.getVariable("birthDate");
+        if(birthDate != null){
+            pawnDataDTO.setBirthDate(birthDate.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate());
+        }
 
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<PawnDataDTO> request = new HttpEntity<>(pawnDataDTO);
