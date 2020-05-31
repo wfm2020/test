@@ -1,20 +1,20 @@
-DROP TABLE IF EXISTS deliveryData;
-DROP TABLE IF EXISTS pawnedItem;
+DROP TABLE IF EXISTS delivery_data;
+DROP TABLE IF EXISTS pawned_item cascade;
 DROP TABLE IF EXISTS customer cascade;
 
 CREATE TABLE customer(
-    ID int not null,
-    firstname varchar(255),
-    lastname varchar(255),
+    ID serial,
+    first_name varchar(255),
+    last_name varchar(255),
     email varchar(255) unique not null,
-    birthdate date,
-    phonenumber varchar(255),
+    birth_date date,
+    phone_number varchar(255),
     PRIMARY KEY (ID)
 );
 
-CREATE TABLE pawnedItem (
-    ID int not null,
-    name varchar(255),
+CREATE TABLE pawned_item (
+    ID serial,
+    item_name varchar(255),
     material varchar(255),
     weight float,
     price float,
@@ -24,6 +24,6 @@ CREATE TABLE pawnedItem (
     FOREIGN KEY (customerID) REFERENCES customer(ID)
 );
 
-INSERT INTO customer (ID, firstname, lastname, email, birthdate, phonenumber)
-VALUES (4234,'John', 'Doe', 'john.doe@gmail.com', '1990-03-25', '0043727145692');
+INSERT INTO customer (first_name, last_name, email, birth_date, phone_number)
+VALUES ('John', 'Doe', 'john.doe@gmail.com', '1990-03-25', '0043727145692');
 

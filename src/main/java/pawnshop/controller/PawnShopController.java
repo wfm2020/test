@@ -19,13 +19,6 @@ class PawnShopController {
     @Autowired
     private PawnShopService pawnShopService;
 
-    // automatically evaluates the price of a pawn item
-    @GetMapping(value = "/pawn/evaluate")
-    public PawnedItem evaluate(@RequestBody PawnedItem data) {
-        // TODO: inline script?
-        return null;
-    }
-
     // creates customer and pawn data
     @PostMapping(value = "/addPawnData")
     public ResponseEntity<GeneralResponse> create(@RequestBody PawnDataDTO data) {

@@ -8,6 +8,7 @@ public class PawnDataDTO {
     private String itemName;
     private Material material;
     private Float weight;
+    private Float price;
 
     private String firstName;
     private String lastName;
@@ -15,10 +16,14 @@ public class PawnDataDTO {
     private LocalDate birthDate;
     private String phoneNumber;
 
-    public PawnDataDTO(String itemName, Material material, Float weight, Integer karats, String firstName, String lastName, String email, LocalDate birthDate, String phoneNumber) {
+    public PawnDataDTO() {
+    }
+
+    public PawnDataDTO(String itemName, Material material, Float weight, Float price, String firstName, String lastName, String email, LocalDate birthDate, String phoneNumber) {
         this.itemName = itemName;
         this.material = material;
         this.weight = weight;
+        this.price = price;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -88,5 +93,13 @@ public class PawnDataDTO {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
     }
 }

@@ -53,7 +53,7 @@
     <bpmn:userTask id="Activity_fillPawnForm" name="Fill in pawn form">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="itemName" label="ItemName" type="string" defaultValue="testname">
+          <camunda:formField id="itemName" label="Item Name" type="string" defaultValue="testname">
             <camunda:validation>
               <camunda:constraint name="required" />
               <camunda:constraint name="maxlength" config="40" />
@@ -66,6 +66,7 @@
             <camunda:value id="GOLD" name="GOLD" />
             <camunda:value id="SILVER" name="SILVER" />
             <camunda:value id="BRONZE" name="BRONZE" />
+            <camunda:value id="PLATINUM" name="PLATINUM" />
           </camunda:formField>
           <camunda:formField id="weight" label="weight (g)" type="long" defaultValue="0">
             <camunda:validation>
@@ -160,7 +161,7 @@
         <bpmn:targetRef>Property_1tixelc</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:manualTask>
-    <bpmn:serviceTask id="Activity_savePawnData" name="Save pawn data" camunda:class="SavePawnData">
+    <bpmn:serviceTask id="Activity_savePawnData" name="Save pawn data" camunda:class="pawnshop.delegate.SavePawnData">
       <bpmn:incoming>Flow_respondEstimationToSavePawnData</bpmn:incoming>
       <bpmn:outgoing>Flow_savePawnDataToEvaluateCustomerRequest</bpmn:outgoing>
       <bpmn:property id="Property_1wg4imk" name="__targetRef_placeholder" />
