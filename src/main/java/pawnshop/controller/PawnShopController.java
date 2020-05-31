@@ -44,7 +44,7 @@ class PawnShopController {
             throw new IllegalArgumentException("Insert phone number!");
         }
 
-        pawnShopService.create(data);
+        //pawnShopService.create(data);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new GeneralResponse(true, "SUCCESS: PawnData saved successfully"));
 
@@ -60,7 +60,7 @@ class PawnShopController {
             throw new IllegalArgumentException("No time inserted");
         }
 
-        pawnShopService.create(data);
+        //pawnShopService.create(data);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new GeneralResponse(true, "SUCCESS: DeliveryData saved successfully"));
     }
