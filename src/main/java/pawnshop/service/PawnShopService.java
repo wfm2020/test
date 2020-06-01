@@ -12,7 +12,6 @@ import pawnshop.repository.CustomerRepository;
 import pawnshop.repository.DeliveryDataRepository;
 import pawnshop.repository.PawnedItemRepository;
 
-import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -32,7 +31,7 @@ public class PawnShopService {
     public PawnedItem create(PawnDataDTO data) {
         Customer customer = customerRepository.findByEmail(data.getEmail());
 
-        if(customer == null){
+        if (customer == null) {
             customer = new Customer();
             customer.setFirstName(data.getFirstName());
             customer.setLastName(data.getLastName());
@@ -81,9 +80,12 @@ public class PawnShopService {
         return pawnedItemRepository.save(pawnedItem);
     }
 
-    public DeliveryData create(DeliveryDataDTO data){
+    public DeliveryData create(DeliveryDataDTO data) {
         DeliveryData deliveryData = new DeliveryData();
-        deliveryData.setDateTime(data.getDateTime());
+        deliveryData.setDeliveryDate(data.getDeliveryDate());
+
+        PawnedItem pawnedItem = getPawnItemById(data.getPawnedItemId());
+        deliveryData.setPawnedItem(pawnedItem);
 
         return deliveryDataRepository.save(deliveryData);
     }

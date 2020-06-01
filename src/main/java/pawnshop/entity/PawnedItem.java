@@ -29,15 +29,19 @@ public class PawnedItem implements Serializable {
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "delivery_data_id", referencedColumnName = "id")
+    private DeliveryData deliveryData;
 
     public PawnedItem() {
     }
 
-    public PawnedItem(String itemName, Material material, double weight, Customer customer) {
+    public PawnedItem(String itemName, Material material, double weight, Customer customer, DeliveryData deliveryData) {
         this.itemName = itemName;
         this.material = material;
         this.weight = weight;
         this.customer = customer;
+        this.deliveryData = deliveryData;
     }
 
     public boolean isAccepted() {
@@ -98,5 +102,13 @@ public class PawnedItem implements Serializable {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+
+    public DeliveryData getDeliveryData() {
+        return deliveryData;
+    }
+
+    public void setDeliveryData(DeliveryData deliveryData) {
+        this.deliveryData = deliveryData;
     }
 }

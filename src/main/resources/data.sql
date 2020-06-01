@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS delivery_data;
+DROP TABLE IF EXISTS delivery_data cascade;
 DROP TABLE IF EXISTS pawned_item cascade;
 DROP TABLE IF EXISTS customer cascade;
 
@@ -11,6 +11,11 @@ CREATE TABLE customer(
     phone_number varchar(255)
 );
 
+CREATE TABLE delivery_data (
+    ID serial primary key,
+    delivery_date date not null
+);
+
 CREATE TABLE pawned_item (
     ID serial primary key,
     item_name varchar(255),
@@ -20,7 +25,9 @@ CREATE TABLE pawned_item (
     accepted boolean,
     payed boolean,
     customer_id serial,
-    FOREIGN KEY (customer_id) REFERENCES customer(ID)
+    delivery_data_id serial,
+    FOREIGN KEY (customer_id) REFERENCES customer(ID),
+    FOREIGN KEY (delivery_data_id) REFERENCES delivery_data(ID)
 );
 
 INSERT INTO customer (first_name, last_name, email, birth_date, phone_number)

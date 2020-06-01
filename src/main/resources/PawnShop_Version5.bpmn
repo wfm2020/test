@@ -87,6 +87,11 @@
     </bpmn:userTask>
     <bpmn:dataStoreReference id="DataStoreReference_0rhf4ea" />
     <bpmn:userTask id="Activity_choosePickupOrDropoff" name="Choose pickup or dropoff">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="deliveryDate" label="Delivery Date" type="date" />
+        </camunda:formData>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1s9z2ip</bpmn:incoming>
       <bpmn:outgoing>Flow_choosePickupOrDropoffToGateway</bpmn:outgoing>
     </bpmn:userTask>
@@ -111,7 +116,7 @@
         <bpmn:targetRef>DataObjectReference_acceptedRequestDataAndPickupTime</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:userTask>
-    <bpmn:serviceTask id="Activity_savePickupData" name="Save pickup data" camunda:class="SavePickupData">
+    <bpmn:serviceTask id="Activity_savePickupData" name="Save pickup data" camunda:class="pawnshop.delegate.SaveDeliveryData">
       <bpmn:incoming>Flow_schedulePickupTimeToSavePickupData</bpmn:incoming>
       <bpmn:outgoing>Flow_savePickupDataToPickupItemFromCustomerBringToStore</bpmn:outgoing>
       <bpmn:property id="Property_1bqj6rk" name="__targetRef_placeholder" />

@@ -1,6 +1,9 @@
+pawnshop\dto\PawnedItemDTO.class
+pawnshop\delegate\SaveDeliveryData.class
 pawnshop\delegate\SavePawnData.class
 pawnshop\dto\PawnDataDTO.class
 pawnshop\controller\PawnShopController.class
+pawnshop\delegate\UpdateRequestStatus.class
 pawnshop\entity\Customer.class
 pawnshop\entity\PawnedItem.class
 pawnshop\dto\DeliveryDataDTO.class
