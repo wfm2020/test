@@ -2,7 +2,6 @@ package pawnshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import pawnshop.dto.DeliveryDataDTO;
@@ -10,7 +9,6 @@ import pawnshop.dto.PawnDataDTO;
 import pawnshop.dto.PawnedItemDTO;
 import pawnshop.entity.DeliveryData;
 import pawnshop.entity.PawnedItem;
-import pawnshop.response.GeneralResponse;
 import pawnshop.service.PawnShopService;
 
 @RestController
@@ -48,7 +46,7 @@ class PawnShopController {
         if (data == null) {
             throw new IllegalArgumentException("No data inserted!");
         }
-        if (data.getDateTime() == null) {
+        if (data.getDeliveryDate() == null) {
             throw new IllegalArgumentException("No time inserted");
         }
         if (data.getPawnedItemId() == 0) {

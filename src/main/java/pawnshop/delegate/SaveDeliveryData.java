@@ -15,7 +15,7 @@ public class SaveDeliveryData implements JavaDelegate {
     public void execute(DelegateExecution execution) throws Exception {
         DeliveryDataDTO deliveryDataDTO = new DeliveryDataDTO();
 
-        deliveryDataDTO.setDateTime(((Date) execution.getVariable("dateTime")).toInstant()
+        deliveryDataDTO.setDeliveryDate(((Date) execution.getVariable("deliveryDate")).toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime());
 

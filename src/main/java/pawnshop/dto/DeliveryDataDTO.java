@@ -4,15 +4,15 @@ import java.time.LocalDateTime;
 
 public class DeliveryDataDTO {
 
-    private LocalDateTime dateTime;
+    private LocalDateTime deliveryDate;
 
     private long pawnedItemId;
 
     public DeliveryDataDTO() {
     }
 
-    public DeliveryDataDTO(LocalDateTime dateTime, long pawnedItemId) {
-        this.dateTime = dateTime;
+    public DeliveryDataDTO(LocalDateTime deliveryDate, long pawnedItemId) {
+        this.deliveryDate = deliveryDate;
         this.pawnedItemId = pawnedItemId;
     }
 
@@ -24,11 +24,11 @@ public class DeliveryDataDTO {
         this.pawnedItemId = pawnedItemId;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDateTime getDeliveryDate() {
+        return deliveryDate;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDeliveryDate(LocalDateTime deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 }

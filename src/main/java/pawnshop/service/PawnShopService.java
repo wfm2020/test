@@ -12,7 +12,6 @@ import pawnshop.repository.CustomerRepository;
 import pawnshop.repository.DeliveryDataRepository;
 import pawnshop.repository.PawnedItemRepository;
 
-import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -83,7 +82,7 @@ public class PawnShopService {
 
     public DeliveryData create(DeliveryDataDTO data) {
         DeliveryData deliveryData = new DeliveryData();
-        deliveryData.setDateTime(data.getDateTime());
+        deliveryData.setDeliveryDate(data.getDeliveryDate());
 
         PawnedItem pawnedItem = getPawnItemById(data.getPawnedItemId());
         deliveryData.setPawnedItem(pawnedItem);

@@ -87,6 +87,11 @@
     </bpmn:userTask>
     <bpmn:dataStoreReference id="DataStoreReference_0rhf4ea" />
     <bpmn:userTask id="Activity_choosePickupOrDropoff" name="Choose pickup or dropoff">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="deliveryDate" label="Delivery Date" type="date" />
+        </camunda:formData>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1s9z2ip</bpmn:incoming>
       <bpmn:outgoing>Flow_choosePickupOrDropoffToGateway</bpmn:outgoing>
     </bpmn:userTask>

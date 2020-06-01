@@ -12,7 +12,7 @@ public class DeliveryData implements Serializable {
     private Long id;
 
     @Column(name = "delivery_date")
-    private LocalDateTime dateTime;
+    private LocalDateTime deliveryDate;
 
     @OneToOne(mappedBy = "deliveryData")
     private PawnedItem pawnedItem;
@@ -33,11 +33,11 @@ public class DeliveryData implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDateTime getDeliveryDate() {
+        return deliveryDate;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDeliveryDate(LocalDateTime deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 }
