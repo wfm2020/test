@@ -11,10 +11,10 @@ public class DeliveryData implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "delivery_date")
     private LocalDateTime dateTime;
 
-    @OneToOne
+    @OneToOne(mappedBy = "deliveryData")
     private PawnedItem pawnedItem;
 
     public PawnedItem getPawnedItem() {

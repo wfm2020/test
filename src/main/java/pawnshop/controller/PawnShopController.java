@@ -44,17 +44,18 @@ class PawnShopController {
 
     // creates delivery data
     @PostMapping(value = "/addDeliveryData")
-    public ResponseEntity<GeneralResponse> createDelivery(@RequestBody DeliveryDataDTO data) {
-        if(data == null){
+    public Long createDelivery(@RequestBody DeliveryDataDTO data) {
+        if (data == null) {
             throw new IllegalArgumentException("No data inserted!");
         }
-        else if(data.getDateTime() == null){
+        if (data.getDateTime() == null) {
             throw new IllegalArgumentException("No time inserted");
         }
+        if (data.getPawnedItemId() == 0) {
+            throw new IllegalArgumentException("No pawn ID inserted");
+        }
 
-        pawnShopService.create(data);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(new GeneralResponse(true, "SUCCESS: DeliveryData saved successfully"));
+        return pawnShopService.create(data).getId();
     }
 
     // get pawn by id

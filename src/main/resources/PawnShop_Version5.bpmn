@@ -111,7 +111,7 @@
         <bpmn:targetRef>DataObjectReference_acceptedRequestDataAndPickupTime</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:userTask>
-    <bpmn:serviceTask id="Activity_savePickupData" name="Save pickup data" camunda:class="SavePickupData">
+    <bpmn:serviceTask id="Activity_savePickupData" name="Save pickup data" camunda:class="pawnshop.delegate.SaveDeliveryData">
       <bpmn:incoming>Flow_schedulePickupTimeToSavePickupData</bpmn:incoming>
       <bpmn:outgoing>Flow_savePickupDataToPickupItemFromCustomerBringToStore</bpmn:outgoing>
       <bpmn:property id="Property_1bqj6rk" name="__targetRef_placeholder" />
