@@ -244,7 +244,7 @@
     <bpmn:sequenceFlow id="Flow_cancelPaymentToGateway" sourceRef="Activity_cancelPayment" targetRef="Gateway_evaluateItemSecond" />
     <bpmn:sequenceFlow id="Flow_updateRequestStatusToEnd" sourceRef="Activity_updateRequestStatusFinal" targetRef="Event_0msz05j" />
     <bpmn:sequenceFlow id="Flow_gatewayToUpdateRequestStatus" sourceRef="Gateway_evaluateItemSecond" targetRef="Activity_updateRequestStatusFinal" />
-    <bpmn:serviceTask id="Activity_updateRequestStatusFinal" name="Update request status" camunda:class="UpdateRequestStatus">
+    <bpmn:serviceTask id="Activity_updateRequestStatusFinal" name="Update request status" camunda:class="pawnshop.delegate.UpdateRequestStatus">
       <bpmn:incoming>Flow_gatewayToUpdateRequestStatus</bpmn:incoming>
       <bpmn:outgoing>Flow_updateRequestStatusToEnd</bpmn:outgoing>
       <bpmn:property id="Property_1iw4j5l" name="__targetRef_placeholder" />

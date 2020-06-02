@@ -68,7 +68,7 @@ public class PawnShopService {
         return pawnedItemRepository.save(pawnedItem);
     }
 
-    public PawnedItem updatePawnedItemPayment(PawnedItem data) {
+    public PawnedItem updatePawnedItemPayment(PawnedItemDTO data) {
         PawnedItem pawnedItem = getPawnItemById(data.getId());
         pawnedItem.setPayed(data.isPayed());
         return pawnedItemRepository.save(pawnedItem);

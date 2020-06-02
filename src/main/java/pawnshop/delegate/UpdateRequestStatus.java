@@ -15,10 +15,19 @@ import java.time.ZoneId;
 import java.util.Date;
 
 public class UpdateRequestStatus implements JavaDelegate {
-    public void execute(DelegateExecution execution) throws Exception {
+    public void execute(DelegateExecution execution) {
 
         Long pawnedItemId = (Long) execution.getVariable("pawnedItemId");
-        boolean accepted = (boolean) execution.getVariable("isAcceptable");
+        boolean isRequestAcceptable = false;
+        boolean isPaymentAccepted = false;
+
+        if(execution.getVariable("isAcceptable") != null){
+            isRequestAcceptable = (boolean) execution.getVariable("isAcceptable");
+        }
+
+        if(execution.getVariable("isPaymentAccepted") != null){
+            isPaymentAccepted = (boolean) execution.getVariable("isPaymentAccepted");
+        }
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -27,14 +36,26 @@ public class UpdateRequestStatus implements JavaDelegate {
                         PawnedItemDTO.class);
 
         if(pawnedItemDTO != null){
-            pawnedItemDTO.setAccepted(accepted);
             pawnedItemDTO.setId(pawnedItemId);
             HttpEntity<PawnedItemDTO> updateRequest = new HttpEntity<>(pawnedItemDTO);
 
-            ResponseEntity<Long> responsePost = restTemplate
-                    .exchange("http://localhost:8080/pawnshop/updateAccepted", HttpMethod.PUT,
-                            updateRequest,
-                            Long.class);
+            if(pawnedItemDTO.isAccepted() != isRequestAcceptable){
+                pawnedItemDTO.setAccepted(isRequestAcceptable);
+                ResponseEntity<Long> responsePost = restTemplate
+                        .exchange("http://localhost:8080/pawnshop/updateAccepted", HttpMethod.PUT,
+                                updateRequest,
+                                Long.class);
+            }
+            if(pawnedItemDTO.isPayed() != isPaymentAccepted){
+                pawnedItemDTO.setPayed(isPaymentAccepted);
+                ResponseEntity<Long> responsePost = restTemplate
+                        .exchange("http://localhost:8080/pawnshop/updatePayment", HttpMethod.PUT,
+                                updateRequest,
+                                Long.class);
+            }
+
+
+
         }
 
 

@@ -84,8 +84,8 @@ class PawnShopController {
 
     @PutMapping(value = "/updatePayment")
     @ResponseStatus(HttpStatus.OK)
-    public PawnedItem updatePayment(@RequestBody PawnedItem data) {
-        return pawnShopService.updatePawnedItemPayment(data);
+    public Long updatePayment(@RequestBody PawnedItemDTO data) {
+        return pawnShopService.updatePawnedItemPayment(data).getId();
     }
 
     @PutMapping(value = "/updateAccepted")
