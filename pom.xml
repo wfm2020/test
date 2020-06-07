@@ -43,7 +43,7 @@
         <dependency>
             <groupId>org.camunda.bpm</groupId>
             <artifactId>camunda-engine-plugin-connect</artifactId>
-            <version>7.8.0-alpha1</version>
+            <version>7.12.0</version>
         </dependency>
         <dependency>
             <groupId>org.camunda.connect</groupId>
