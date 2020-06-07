@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_03xhwxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.7.2">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_03xhwxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.7.3">
   <bpmn:collaboration id="Collaboration_1ps5r7s">
     <bpmn:participant id="Participant_0bkllgr" name="Pawn Shop" processRef="Process_12x2cxl" />
   </bpmn:collaboration>
@@ -45,7 +45,7 @@
     <bpmn:startEvent id="Event_start" name="Customer interested in pawning jewlery">
       <bpmn:outgoing>Flow_startToFillPawnForm</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:userTask id="Activity_fillPawnForm" name="Fill in pawn form">
+    <bpmn:userTask id="Activity_fillPawnForm" name="Fill in pawn form" camunda:candidateGroups="customers">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="itemName" label="Item Name" type="string">
@@ -76,7 +76,8 @@
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="birthDate" label="birthDate" type="date" />
-          <camunda:formField id="phoneNumber" label="phoneNumber +(...)" type="string" />
+          <camunda:formField id="phoneNumber" label="phone number +(...)" type="string" />
+          <camunda:formField id="userID" label="enter proper userID (YOUR ID)" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_startToFillPawnForm</bpmn:incoming>
@@ -86,10 +87,11 @@
       </bpmn:dataOutputAssociation>
     </bpmn:userTask>
     <bpmn:dataStoreReference id="DataStoreReference_0rhf4ea" />
-    <bpmn:userTask id="Activity_choosePickupOrDropoff" name="Choose pickup or dropoff">
+    <bpmn:userTask id="Activity_choosePickupOrDropoff" name="Choose pickup or dropoff" camunda:assignee="${userID}" camunda:candidateGroups="customers">
+      <bpmn:documentation>If you do not check "Pick up" option - you should bring that to our Pawn Shop. Working hours: Mo - Sa (08 - 19)</bpmn:documentation>
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="isPickup" label="Schedule pickup" type="boolean" />
+          <camunda:formField id="isPickup" label="Do you want us to pick up your item? (Vienna only) More details in description..." type="boolean" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1s9z2ip</bpmn:incoming>
@@ -104,10 +106,23 @@
       <bpmn:incoming>Flow_gatewayToDropoffItem</bpmn:incoming>
       <bpmn:outgoing>Flow_dropoffItemToGateway</bpmn:outgoing>
     </bpmn:manualTask>
-    <bpmn:userTask id="Activity_schedulePickupTime" name="Schedule pickup time">
+    <bpmn:userTask id="Activity_schedulePickupTime" name="Schedule pickup time" camunda:assignee="${userID}" camunda:candidateGroups="customers">
+      <bpmn:documentation>Our delivery service will pick up item from you. Please, notice that if you will put adress outside of our pick up zone (Vienna) we will not be able to pick it.</bpmn:documentation>
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="deliveryDate" label="Delivery Date" type="date" />
+          <camunda:formField id="deliveryDate" label="Pick up Date" type="date" />
+          <camunda:formField id="deliveryAdress" label="Your Adress (Vienna only)" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="deliveryDistrict" label="District" type="string" defaultValue="0101">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+              <camunda:constraint name="maxlength" config="4" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="deliveryAppartment" label="Appartment" type="long" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_gatewayToSchedulePickupTime</bpmn:incoming>
@@ -235,10 +250,10 @@
     </bpmn:task>
     <bpmn:sequenceFlow id="Flow_evaluateItemToGateway" sourceRef="Activity_evaluateItem" targetRef="Gateway_evaluateItem" />
     <bpmn:sequenceFlow id="Flow_gatewayToCancelPayment" name="No" sourceRef="Gateway_evaluateItem" targetRef="Activity_cancelPayment">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPaymentAccepted == false}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isItemAccepted == false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_gatewayToConfirmPayment" name="Yes" sourceRef="Gateway_evaluateItem" targetRef="Activity_confirmPayment">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPaymentAccepted == true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isItemAccepted == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_confirmPaymentToGateway" sourceRef="Activity_confirmPayment" targetRef="Gateway_evaluateItemSecond" />
     <bpmn:sequenceFlow id="Flow_cancelPaymentToGateway" sourceRef="Activity_cancelPayment" targetRef="Gateway_evaluateItemSecond" />
@@ -288,7 +303,7 @@
       <bpmn:incoming>Flow_respondEstimationToEnd</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_automaticallyEvaluatePriceToRespondEstimation" sourceRef="Activity_automatiallyEvaluatePrice" targetRef="Activity_respondEstimation" />
-    <bpmn:userTask id="Activity_respondEstimation" name="Respond the estimation">
+    <bpmn:userTask id="Activity_respondEstimation" name="Respond the estimation" camunda:assignee="${userID}" camunda:candidateGroups="customers">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="estimationAccepted" label="Accept estimation: ${price} euros for ${itemName}" type="boolean" />
@@ -314,10 +329,14 @@
       <bpmn:outgoing>Flow_respondEstimationToEnd</bpmn:outgoing>
       <bpmn:outgoing>Flow_respondEstimationToSavePawnData</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:userTask id="Activity_evaluateCustomerRequest" name="Evaluate customer request">
+    <bpmn:userTask id="Activity_evaluateCustomerRequest" name="Evaluate customer request" camunda:candidateGroups="estimation">
+      <bpmn:documentation>Is request acceptable for item ${itemName}? 
+Price for the item is: ${price};
+User e-email: ${email};
+User phone: ${phoneNumber};</bpmn:documentation>
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="isAcceptable" label="Is request acceptable for item ${itemName}?" type="boolean" />
+          <camunda:formField id="isAcceptable" label="Is request acceptable for item ${itemName}? Here is Price for the item is: ${price}. Look into &#34;Decription&#34; tab here to get more details." type="boolean" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_savePawnDataToEvaluateCustomerRequest</bpmn:incoming>
@@ -332,10 +351,13 @@
       </bpmn:dataOutputAssociation>
       <bpmn:standardLoopCharacteristics />
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_evaluateItem" name="Evaluate item">
+    <bpmn:userTask id="Activity_evaluateItem" name="Evaluate item" camunda:candidateGroups="frontdesk">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="isPaymentAccepted" label="Is payment acceptable for item ${itemName}" type="boolean" />
+          <camunda:formField id="isItemAccepted" label="Is item acceptable: ${itemName}" type="boolean" />
+          <camunda:formField id="isPaymentAccepted" label="Agree with price" type="boolean" />
+          <camunda:formField id="newPrice" label="new Price proposal" type="long" />
+          <camunda:formField id="explainItem" label="Explanation why price is changed" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_gatewayToEvaluateItem</bpmn:incoming>
@@ -344,7 +366,9 @@
     <bpmn:sequenceFlow id="Flow_0m9tt98" sourceRef="Activity_evaluateCustomerRequest" targetRef="Activity_updateRequestStatus" />
     <bpmn:dataObjectReference id="DataObjectReference_updatedRequestData" name="updated request data" dataObjectRef="DataObject_1uanany" />
     <bpmn:dataObject id="DataObject_1uanany" />
-    <bpmn:sequenceFlow id="Flow_1s9z2ip" name="yes" sourceRef="Gateway_updateRequestStatus" targetRef="Activity_choosePickupOrDropoff" />
+    <bpmn:sequenceFlow id="Flow_1s9z2ip" name="yes" sourceRef="Gateway_updateRequestStatus" targetRef="Activity_choosePickupOrDropoff">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAcceptable == true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:textAnnotation id="TextAnnotation_0lspe22">
       <bpmn:text>for evaluation</bpmn:text>
     </bpmn:textAnnotation>
