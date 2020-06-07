@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_03xhwxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.7.3">
   <bpmn:collaboration id="Collaboration_1ps5r7s">
-    <bpmn:participant id="Participant_0bkllgr" name="Pawn Shop" processRef="Process_12x2cxl" />
+    <bpmn:participant id="Participant_0bkllgr" name="Pawn Shop"
+                      processRef="New_pawn_shop_process" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_12x2cxl" isExecutable="true">
+  <bpmn:process id="New_pawn_shop_process" isExecutable="true">
     <bpmn:laneSet id="LaneSet_098sp10">
       <bpmn:lane id="Lane_1d354gd" name="Front desk PawnShop Employee">
         <bpmn:flowNodeRef>Gateway_evaluateItem</bpmn:flowNodeRef>
@@ -115,7 +116,7 @@
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="deliveryDate" label="Pick up Date" type="date" />
-          <camunda:formField id="deliveryAdress" label="Your Adress (Vienna only)" type="string">
+          <camunda:formField id="deliveryAdress" label="Your Address (Vienna only)" type="string">
             <camunda:validation>
               <camunda:constraint name="required" />
             </camunda:validation>
@@ -123,7 +124,7 @@
           <camunda:formField id="deliveryDistrict" label="District" type="string" defaultValue="0101">
             <camunda:validation>
               <camunda:constraint name="required" />
-              <camunda:constraint name="maxlength" config="4" />
+              <camunda:constraint name="maxlength" config="5" />
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="deliveryAppartment" label="Appartment" type="long" />

@@ -27,7 +27,7 @@ public class Application {
 
     @EventListener
     private void processPostDeploy(PostDeployEvent event) {
-        runtimeService.startProcessInstanceByKey("Process_12x2cxl");
+        runtimeService.startProcessInstanceByKey("New_pawn_shop_process");
     }
 
     public static void main(String... args) {
