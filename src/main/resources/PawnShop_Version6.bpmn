@@ -77,7 +77,11 @@
           </camunda:formField>
           <camunda:formField id="birthDate" label="birthDate" type="date" />
           <camunda:formField id="phoneNumber" label="phone number +(...)" type="string" />
-          <camunda:formField id="userID" label="enter proper userID (YOUR ID)" type="string" />
+          <camunda:formField id="userID" label="enter proper userID (YOUR ID)" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_startToFillPawnForm</bpmn:incoming>

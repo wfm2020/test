@@ -32,7 +32,7 @@ public class UpdateRequestStatus implements JavaDelegate {
         RestTemplate restTemplate = new RestTemplate();
 
         PawnedItemDTO pawnedItemDTO = restTemplate
-                .getForObject("http://localhost:8080/pawnshop/pawnedItem/" + pawnedItemId,
+                .getForObject("https://wfm-pawnshop.herokuapp.com/pawnshop/pawnedItem/" + pawnedItemId,
                         PawnedItemDTO.class);
 
         if(pawnedItemDTO != null){
@@ -42,14 +42,14 @@ public class UpdateRequestStatus implements JavaDelegate {
             if(pawnedItemDTO.isAccepted() != isRequestAcceptable){
                 pawnedItemDTO.setAccepted(isRequestAcceptable);
                 ResponseEntity<Long> responsePost = restTemplate
-                        .exchange("http://localhost:8080/pawnshop/updateAccepted", HttpMethod.PUT,
+                        .exchange("https://wfm-pawnshop.herokuapp.com/pawnshop/updateAccepted", HttpMethod.PUT,
                                 updateRequest,
                                 Long.class);
             }
             if(pawnedItemDTO.isPayed() != isPaymentAccepted){
                 pawnedItemDTO.setPayed(isPaymentAccepted);
                 ResponseEntity<Long> responsePost = restTemplate
-                        .exchange("http://localhost:8080/pawnshop/updatePayment", HttpMethod.PUT,
+                        .exchange("https://wfm-pawnshop.herokuapp.com/pawnshop/updatePayment", HttpMethod.PUT,
                                 updateRequest,
                                 Long.class);
             }

@@ -50,7 +50,7 @@ public class SavePawnData implements JavaDelegate {
         HttpEntity<PawnDataDTO> request = new HttpEntity<>(pawnDataDTO);
 
         ResponseEntity<Long> response = restTemplate
-                .exchange("http://localhost:8080/pawnshop/addPawnData", HttpMethod.POST, request,
+                .exchange("https://wfm-pawnshop.herokuapp.com/pawnshop/addPawnData", HttpMethod.POST, request,
                         Long.class);
 
         execution.setVariable("pawnedItemId", response.getBody());

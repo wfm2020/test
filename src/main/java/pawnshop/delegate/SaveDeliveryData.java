@@ -25,7 +25,7 @@ public class SaveDeliveryData implements JavaDelegate {
         HttpEntity<DeliveryDataDTO> request = new HttpEntity<>(deliveryDataDTO);
 
         ResponseEntity<Long> response = restTemplate
-                .exchange("http://localhost:8080/pawnshop/addDeliveryData", HttpMethod.POST, request,
+                .exchange("https://wfm-pawnshop.herokuapp.com/pawnshop/addDeliveryData", HttpMethod.POST, request,
                         Long.class);
 
         execution.setVariable("pawnedItemId", response.getBody());
