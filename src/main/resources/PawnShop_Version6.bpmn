@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_03xhwxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.7.3">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_03xhwxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.7.2">
   <bpmn:collaboration id="Collaboration_1ps5r7s">
-    <bpmn:participant id="Participant_0bkllgr" name="Pawn Shop"
-                      processRef="New_pawn_shop_process" />
+    <bpmn:participant id="Participant_0bkllgr" name="Pawn Shop" processRef="New_pawn_shop_process" />
   </bpmn:collaboration>
   <bpmn:process id="New_pawn_shop_process" isExecutable="true">
     <bpmn:laneSet id="LaneSet_098sp10">
@@ -23,10 +22,10 @@
         <bpmn:flowNodeRef>Activity_choosePickupOrDropoff</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_choosePickupOrDropoff</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_dropoffItem</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_schedulePickupTime</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_0vvkeef</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_respondEstimation</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_respondEstimation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_schedulePickupTime</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_0428tzl" name="Application">
         <bpmn:flowNodeRef>Activity_savePickupData</bpmn:flowNodeRef>
@@ -111,36 +110,6 @@
       <bpmn:incoming>Flow_gatewayToDropoffItem</bpmn:incoming>
       <bpmn:outgoing>Flow_dropoffItemToGateway</bpmn:outgoing>
     </bpmn:manualTask>
-    <bpmn:userTask id="Activity_schedulePickupTime" name="Schedule pickup time" camunda:assignee="${userID}" camunda:candidateGroups="customers">
-      <bpmn:documentation>Our delivery service will pick up item from you. Please, notice that if you will put adress outside of our pick up zone (Vienna) we will not be able to pick it.</bpmn:documentation>
-      <bpmn:extensionElements>
-        <camunda:formData>
-          <camunda:formField id="deliveryDate" label="Pick up Date" type="date" />
-          <camunda:formField id="deliveryAdress" label="Your Address (Vienna only)" type="string">
-            <camunda:validation>
-              <camunda:constraint name="required" />
-            </camunda:validation>
-          </camunda:formField>
-          <camunda:formField id="deliveryDistrict" label="District" type="string" defaultValue="0101">
-            <camunda:validation>
-              <camunda:constraint name="required" />
-              <camunda:constraint name="maxlength" config="5" />
-            </camunda:validation>
-          </camunda:formField>
-          <camunda:formField id="deliveryAppartment" label="Appartment" type="long" />
-        </camunda:formData>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_gatewayToSchedulePickupTime</bpmn:incoming>
-      <bpmn:outgoing>Flow_schedulePickupTimeToSavePickupData</bpmn:outgoing>
-      <bpmn:property id="Property_02mebtl" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_0gznzsd">
-        <bpmn:sourceRef>DataObjectReference_acceptedRequestData</bpmn:sourceRef>
-        <bpmn:targetRef>Property_02mebtl</bpmn:targetRef>
-      </bpmn:dataInputAssociation>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_acceptedRequestDataAndPickupTime">
-        <bpmn:targetRef>DataObjectReference_acceptedRequestDataAndPickupTime</bpmn:targetRef>
-      </bpmn:dataOutputAssociation>
-    </bpmn:userTask>
     <bpmn:serviceTask id="Activity_savePickupData" name="Save pickup data" camunda:class="pawnshop.delegate.SaveDeliveryData">
       <bpmn:incoming>Flow_schedulePickupTimeToSavePickupData</bpmn:incoming>
       <bpmn:outgoing>Flow_savePickupDataToPickupItemFromCustomerBringToStore</bpmn:outgoing>
@@ -168,15 +137,6 @@
     </bpmn:scriptTask>
     <bpmn:dataObjectReference id="DataObjectReference_pawnData" name="Pawn Data" dataObjectRef="DataObject_1oglb40" />
     <bpmn:dataObject id="DataObject_1oglb40" />
-    <bpmn:manualTask id="Activity_pickupItemFromCustomer" name="Pickup item from customer and bring to store">
-      <bpmn:incoming>Flow_savePickupDataToPickupItemFromCustomerBringToStore</bpmn:incoming>
-      <bpmn:outgoing>Flow_pickupItemFromCustomerBringToStoreToGateway</bpmn:outgoing>
-      <bpmn:property id="Property_1tixelc" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_acceptedRequestDataAndPickupTimeToPickItemBringToStore">
-        <bpmn:sourceRef>DataObjectReference_acceptedRequestDataAndPickupTime</bpmn:sourceRef>
-        <bpmn:targetRef>Property_1tixelc</bpmn:targetRef>
-      </bpmn:dataInputAssociation>
-    </bpmn:manualTask>
     <bpmn:serviceTask id="Activity_savePawnData" name="Save pawn data" camunda:class="pawnshop.delegate.SavePawnData">
       <bpmn:incoming>Flow_respondEstimationToSavePawnData</bpmn:incoming>
       <bpmn:outgoing>Flow_savePawnDataToEvaluateCustomerRequest</bpmn:outgoing>
@@ -374,6 +334,50 @@ User phone: ${phoneNumber};</bpmn:documentation>
     <bpmn:sequenceFlow id="Flow_1s9z2ip" name="yes" sourceRef="Gateway_updateRequestStatus" targetRef="Activity_choosePickupOrDropoff">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isAcceptable == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
+    <bpmn:userTask id="Activity_pickupItemFromCustomer" name="Pickup item from customer and bring to store" camunda:candidateGroups="delivery">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="pickUp" label="Pick up went fine, item ${itemName} brought to store" type="boolean" defaultValue="true" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_savePickupDataToPickupItemFromCustomerBringToStore</bpmn:incoming>
+      <bpmn:outgoing>Flow_pickupItemFromCustomerBringToStoreToGateway</bpmn:outgoing>
+      <bpmn:property id="Property_0efs68j" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_acceptedRequestDataAndPickupTimeToPickItemBringToStore">
+        <bpmn:sourceRef>DataObjectReference_acceptedRequestDataAndPickupTime</bpmn:sourceRef>
+        <bpmn:targetRef>Property_0efs68j</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_schedulePickupTime" name="Schedule pickup time" camunda:assignee="${userID}" camunda:candidateGroups="customers">
+      <bpmn:documentation>Our delivery service will pick up item from you. Please, notice that if you will put adress outside of our pick up zone (Vienna) we will not be able to pick it.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="deliveryDate" label="Pick up Date" type="date" />
+          <camunda:formField id="deliveryAdress" label="Your Address (Vienna only)" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="deliveryDistrict" label="District" type="string" defaultValue="0101">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+              <camunda:constraint name="maxlength" config="5" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="deliveryAppartment" label="Appartment" type="long" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_gatewayToSchedulePickupTime</bpmn:incoming>
+      <bpmn:outgoing>Flow_schedulePickupTimeToSavePickupData</bpmn:outgoing>
+      <bpmn:property id="Property_02mebtl" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_0gznzsd">
+        <bpmn:sourceRef>DataObjectReference_acceptedRequestData</bpmn:sourceRef>
+        <bpmn:targetRef>Property_02mebtl</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_acceptedRequestDataAndPickupTime">
+        <bpmn:targetRef>DataObjectReference_acceptedRequestDataAndPickupTime</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:userTask>
     <bpmn:textAnnotation id="TextAnnotation_0lspe22">
       <bpmn:text>for evaluation</bpmn:text>
     </bpmn:textAnnotation>
@@ -572,9 +576,6 @@ User phone: ${phoneNumber};</bpmn:documentation>
           <dc:Bounds x="277" y="533" width="55" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_02vc8zt_di" bpmnElement="Activity_pickupItemFromCustomer">
-        <dc:Bounds x="2340" y="870" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_03un1q7_di" bpmnElement="Activity_savePawnData">
         <dc:Bounds x="760" y="450" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -659,6 +660,9 @@ User phone: ${phoneNumber};</bpmn:documentation>
           <dc:Bounds x="1530" y="1202" width="81" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0c3ot0e_di" bpmnElement="Activity_pickupItemFromCustomer">
+        <dc:Bounds x="2340" y="870" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0lspe22_di" bpmnElement="TextAnnotation_0lspe22">
         <dc:Bounds x="380" y="620" width="99.99999794078421" height="29.993252876477367" />
       </bpmndi:BPMNShape>
@@ -696,11 +700,6 @@ User phone: ${phoneNumber};</bpmn:documentation>
       <bpmndi:BPMNEdge id="DataOutputAssociation_1m9t0z4_di" bpmnElement="DataOutputAssociation_pawnDataWithEstimation">
         <di:waypoint x="570" y="540" />
         <di:waypoint x="610" y="540" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataInputAssociation_14d4ita_di" bpmnElement="DataInputAssociation_acceptedRequestDataAndPickupTimeToPickItemBringToStore">
-        <di:waypoint x="2250" y="315" />
-        <di:waypoint x="2250" y="900" />
-        <di:waypoint x="2340" y="900" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataInputAssociation_1083bvh_di" bpmnElement="DataInputAssociation_pawnDataWithEstimationToSaveData">
         <di:waypoint x="648" y="560" />
@@ -773,6 +772,11 @@ User phone: ${phoneNumber};</bpmn:documentation>
         <di:waypoint x="1100" y="1210" />
         <di:waypoint x="1100" y="1165" />
         <di:waypoint x="1552" y="1165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataInputAssociation_14d4ita_di" bpmnElement="DataInputAssociation_acceptedRequestDataAndPickupTimeToPickItemBringToStore">
+        <di:waypoint x="2250" y="315" />
+        <di:waypoint x="2250" y="900" />
+        <di:waypoint x="2340" y="900" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
